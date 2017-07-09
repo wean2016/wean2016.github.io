@@ -1,0 +1,836 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="1.简述面向对象和面向过程的区别和联系？面向过程是结构化程序设计方法，主张按功能将软件系统逐步细分，其主要原则可概括为自顶向下、逐步求精、模块化等；在结构化程序设计中，每个功能都负责对数据进行一次处理，每个功能都接受一些数据，处理完后输出一些数   据，这种处理方式也称为面向数据流的处理方式。   对比之下面向对象是一种更高级的程序设计方法，它从现实世界出发来构造软件系统，强调以对象为中心来思考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="假前小充电--面向对象（一）">
+<meta property="og:url" content="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/index.html">
+<meta property="og:site_name" content="wean&#39;s blog">
+<meta property="og:description" content="1.简述面向对象和面向过程的区别和联系？面向过程是结构化程序设计方法，主张按功能将软件系统逐步细分，其主要原则可概括为自顶向下、逐步求精、模块化等；在结构化程序设计中，每个功能都负责对数据进行一次处理，每个功能都接受一些数据，处理完后输出一些数   据，这种处理方式也称为面向数据流的处理方式。   对比之下面向对象是一种更高级的程序设计方法，它从现实世界出发来构造软件系统，强调以对象为中心来思考">
+<meta property="og:image" content="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/1.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/2.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/3.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/4.png">
+<meta property="og:updated_time" content="2017-07-09T04:54:16.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="假前小充电--面向对象（一）">
+<meta name="twitter:description" content="1.简述面向对象和面向过程的区别和联系？面向过程是结构化程序设计方法，主张按功能将软件系统逐步细分，其主要原则可概括为自顶向下、逐步求精、模块化等；在结构化程序设计中，每个功能都负责对数据进行一次处理，每个功能都接受一些数据，处理完后输出一些数   据，这种处理方式也称为面向数据流的处理方式。   对比之下面向对象是一种更高级的程序设计方法，它从现实世界出发来构造软件系统，强调以对象为中心来思考">
+<meta name="twitter:image" content="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/"/>
+
+
+
+
+
+  <title>假前小充电--面向对象（一） | wean's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wean's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://wean2016.cn/2017/06/05/假前小充电-面向对象（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wean">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wean's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">假前小充电--面向对象（一）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-05T20:09:32+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h1 id="1-简述面向对象和面向过程的区别和联系？"><a href="#1-简述面向对象和面向过程的区别和联系？" class="headerlink" title="1.简述面向对象和面向过程的区别和联系？"></a>1.简述面向对象和面向过程的区别和联系？</h1><p>面向过程是结构化程序设计方法，主张按功能将软件系统逐步细分，其主要原则可概括为<strong>自顶向下、逐步求精、模块化</strong>等；在结构化程序设计中，每个功能都负责对数据进行一次处理，每个功能都接受一些数据，处理完后输出一些数   据，这种处理方式也称为面向数据流的处理方式。  </p>
+<p>对比之下面向对象是一种更高级的程序设计方法，它从现实世界出发来构造软件系统，<strong>强调以对象为中心来思考</strong>，它的编程方式更接近人类思维习惯，使程序员更容易理解。  </p>
+<p>这两种不同的设计思想使得在运用<strong>这两种思想编程时粒度相差很大</strong>：面向对象的程序单位是类，而面向过程的程序单位是函数，使得它比面向对象过程更复杂。  </p>
+<p>而两者的联系又体现在<strong>都是在对数据进行处理</strong>，只是面向对象站在更高的角度上，将数据和函数打包，在对象的层次上去处理。</p>
+<h1 id="2-对象和类的关系是？"><a href="#2-对象和类的关系是？" class="headerlink" title="2.对象和类的关系是？"></a>2.对象和类的关系是？</h1><p>类是一种自定义的数据类型，用于描述某一类对象的共同特征，而对象则是类的实例化，是一种具体存在。<br><a id="more"></a></p>
+<h1 id="3-堆和栈的特点是什么？分别存放什么内容？"><a href="#3-堆和栈的特点是什么？分别存放什么内容？" class="headerlink" title="3.堆和栈的特点是什么？分别存放什么内容？"></a>3.堆和栈的特点是什么？分别存放什么内容？</h1><p>栈内存的特点是由程序控制分配和回收，如执行一个方法时，在这个方法内定义的变量会随着方法的执行而创建，随着方法的结束而释放。而对于堆内存，往往用于存放教大而复杂的数据，需要耗费较多系统资源，所以特点是不会随着方法的结束而销毁。  </p>
+<p>对堆内存的停止使用是需要专门执行释放操作的。以C语言来说，需要用户手动去malloc()或者calloc()，在不再使用后需要调用free()来释放。在Java程序中也是如此，只是Java中有自己的回收机制，会自动调用回收功能来清理没有引用的数据。当然，也可以自己调用函数建议程序调用垃圾回功能，但只是起到建议的作用，程序可能不会立即调用。</p>
+<h1 id="4-局部变量使用之前，需要手动初始化吗？"><a href="#4-局部变量使用之前，需要手动初始化吗？" class="headerlink" title="4.局部变量使用之前，需要手动初始化吗？"></a>4.局部变量使用之前，需要手动初始化吗？</h1><p>局部变量在使用之前，需要手动初始化。  </p>
+<p>在解释这个问题前，我们先来讲局部变量。<br>局部变量包括方法的形参，方法体内定义的变量和代码块中的变量。<strong>这类变量的存在时间最长不超过方法或代码块的执行时间，会随着方法执行结束或者代码块完成而销毁</strong>，显然，它是保存在栈内存中的（如果是引用类型的变量，那么它存放的是地址）。<br>局部变量的这些特点表明它的运行机制是：<strong>定义局部变量后，系统并未为这个变量分配内存空间，直到等到程序为这个变量赋初始值时，系统才会为局部变量分配内存，并将初始值保存在这块内存中。</strong><br>下面用一段小代码来做例子方便理解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class Variable &#123;</div><div class="line">	public static void main(String[] args)&#123;</div><div class="line">		//定义一个局部变量a</div><div class="line">		int a;</div><div class="line">		//下面代码块将出现错误，因为a变量还未初始化</div><div class="line">		//System.out.println(&quot;方法局部变量a的值：&quot; + a);</div><div class="line">		//为a变量赋初始值，也就是进行初始化</div><div class="line">		a = 5;</div><div class="line">		System.out.println(&quot;方法局部变量a的值：&quot; + a);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>另外，值得说的一点是，在Java中没有静态局部变量的概念，以前学过C的我们知道在C语言中可以定义静态局部变量，但是为什么在Java中不能定义呢……我也不知道啊！！！在搞清楚C和Java对static的加载过程后，我觉得可能是为了更规范用完的就销毁的规则把……毕竟，静态局部变量能做的事，成员变量也可以做到……（对这个问题有自己的想法可以找我探讨啊…………）  </p>
+<h1 id="5-Java-中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？"><a href="#5-Java-中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？" class="headerlink" title="5.Java 中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？"></a>5.Java 中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？</h1><p>不管程序有没有显示的初始化，Java  虚拟机都会先自动给它初始化为默认值。</p>
+<ul>
+<li><p>整数类型（byte、short、int、long）的基本类型变量的默认值为0。</p>
+</li>
+<li><p>单精度浮点型（float）的基本类型变量的默认值为0.0f。</p>
+</li>
+<li><p>双精度浮点型（double）的基本类型变量的默认值为0.0d。</p>
+</li>
+<li><p>字符型（char）的基本类型变量的默认为 “/u0000”。</p>
+</li>
+<li><p>布尔性的基本类型变量的默认值为 false。</p>
+</li>
+<li><p>引用类型的变量是默认值为 null。</p>
+</li>
+<li>数组引用类型的变量的默认值为 null。当数组变量的实例后，如果没有没有显示的为每个元素赋值，Java 就会把该数组的所有元素初始化为其相应类型的默认值。</li>
+</ul>
+<p>数组例子：</p>
+<ul>
+<li><p>int[] a;   //声明,没有初始化默认值是null</p>
+</li>
+<li><p>int[] a=new int[5];   //初始化为默认值,int型为0  </p>
+</li>
+</ul>
+<hr>
+<h1 id="6-构造方法如何被调用？"><a href="#6-构造方法如何被调用？" class="headerlink" title="6.构造方法如何被调用？"></a>6.构造方法如何被调用？</h1><p>通过 <strong>new</strong> 关键字可以调用某个类的构造器。如：<br>    Person p =new Person();<br>如果这个类的构造器重载了，则调用规则跟方法重载一样，如：<br>    Person p = new Person(int age = 20);<br>会调用Person类的带一个int类型参数的构造器<br>而如果要创建的类继承了某个类，则可以通过 <strong>super</strong>关键字调用父类的构造器，下面代码演示了这样的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Person &#123;</div><div class="line">    Integer gender;</div><div class="line">    Person(Integer gender) &#123;</div><div class="line">        this.gender = gender;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Father extends Person &#123;</div><div class="line">    String name;</div><div class="line">    Father() &#123;</div><div class="line">        super(1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="7-系统一定会给我们添加无参数的构造方法吗-请详细解释。"><a href="#7-系统一定会给我们添加无参数的构造方法吗-请详细解释。" class="headerlink" title="7.系统一定会给我们添加无参数的构造方法吗?请详细解释。"></a>7.系统一定会给我们添加无参数的构造方法吗?请详细解释。</h1><p>不会  </p>
+<ul>
+<li>定义一个类时，不显式指定构造器，系统会为我们提供一个无参数的构造器  </li>
+<li>定义一个类时，显示指定了构造器，不同不会为我们提供无参数的构造器，即使我们指定的构造器中没有无参构造器<br>但我们有时不需要构造器或者说不需要将构造器暴露出来应该怎么做呢？答案是指定一个private修饰的构造器，这种设计模式叫<strong>Singleton</strong>。<br>下面演示了这样一个例子：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">class Singleton</div><div class="line">&#123;</div><div class="line">	// 使用一个类变量来缓存曾经创建的实例</div><div class="line">	private static Singleton instance;</div><div class="line">	// 将构造器使用private修饰，隐藏该构造器</div><div class="line">	private Singleton()&#123;&#125;</div><div class="line">	// 提供一个静态方法，用于返回Singleton实例</div><div class="line">	// 该方法可以加入自定义的控制，保证只产生一个Singleton对象</div><div class="line">	public static Singleton getInstance()</div><div class="line">	&#123;</div><div class="line">		// 如果instance为null，表明还不曾创建Singleton对象</div><div class="line">		// 如果instance不为null，则表明已经创建了Singleton对象，</div><div class="line">		// 将不会重新创建新的实例</div><div class="line">		if (instance == null)</div><div class="line">		&#123;</div><div class="line">			// 创建一个Singleton对象，并将其缓存起来</div><div class="line">			instance = new Singleton();</div><div class="line">		&#125;</div><div class="line">		return instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">public class SingletonTest</div><div class="line">&#123;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		// 创建Singleton对象不能通过构造器，</div><div class="line">		// 只能通过getInstance方法来得到实例</div><div class="line">		Singleton s1 = Singleton.getInstance();</div><div class="line">		Singleton s2 = Singleton.getInstance();</div><div class="line">		System.out.println(s1 == s2); // 将输出true</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="8-构造方法能不能重载？"><a href="#8-构造方法能不能重载？" class="headerlink" title="8.构造方法能不能重载？"></a>8.构造方法能不能重载？</h1><p>可以  </p>
+<h1 id="9-this-在普通方法中，指的是哪个对象？在构造方法中，指的是？"><a href="#9-this-在普通方法中，指的是哪个对象？在构造方法中，指的是？" class="headerlink" title="9.this 在普通方法中，指的是哪个对象？在构造方法中，指的是？"></a>9.this 在普通方法中，指的是哪个对象？在构造方法中，指的是？</h1><p>this 在普通方法中，指的是调用该方法的对象，在构造方法中，指的是调用该构造方法的对象。  </p>
+<p>对普通方法的理解可以参考下面代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Test &#123;</div><div class="line">    public Test() &#123;</div><div class="line">        System.out.println(this.toString());</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Test obj = new Test();</div><div class="line">        System.out.println(obj.toString());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对构造器的this的理解可以参考<strong>java编程思想</strong>里的一段文字：</p>
+<blockquote>
+<p>在这里有必要总结一下对象的创建过程。请考虑一个名为Dog 的类：<br>(1) 类型为Dog 的一个对象首次创建时，或者Dog 类的static 方法／static 字段首次访问时，Java 解释器<br>必须找到Dog.class（在事先设好的类路径里搜索）。<br>(2) 找到Dog.class 后（它会创建一个Class 对象，这将在后面学到），它的所有static 初始化模块都会运<br>行。因此，static 初始化仅发生一次——在Class 对象首次载入的时候。<br>(3) 创建一个new Dog()时，Dog 对象的构建进程首先会在内存堆（Heap）里为一个Dog 对象分配足够多的存<br>储空间。<br>(4) 这种存储空间会清为零，将Dog 中的所有基本类型设为它们的默认值（零用于数字，以及boolean 和<br>char 的等价设定）。<br>(5) 进行字段定义时发生的所有初始化都会执行。<br>(6) 执行构建器。</p>
+</blockquote>
+<h1 id="10-静态初始化块和-main-方法哪个先被执行？"><a href="#10-静态初始化块和-main-方法哪个先被执行？" class="headerlink" title="10.静态初始化块和 main 方法哪个先被执行？"></a>10.静态初始化块和 main 方法哪个先被执行？</h1><p>这里讨论的是在同一个类中的main方法和静态初始化块中情况<br>答案是静态初始化块。因为在JVM加载类时便会执行静态初始化块了，而main方法是在类的实例中运行的，自然在静态初始化块后执行。  </p>
+<hr>
+<h1 id="11-一个构造方法调用另一个构造方法怎么调用？this-这样的调用方式必须位于第一句吗？"><a href="#11-一个构造方法调用另一个构造方法怎么调用？this-这样的调用方式必须位于第一句吗？" class="headerlink" title="11.一个构造方法调用另一个构造方法怎么调用？this() 这样的调用方式必须位于第一句吗？"></a>11.一个构造方法调用另一个构造方法怎么调用？this() 这样的调用方式必须位于第一句吗？</h1><p>可以通过this()来相互调用，this()这样的调用方式必须在第一位。下面通过代码来演示  </p>
+<h3 id="this-在第一位"><a href="#this-在第一位" class="headerlink" title="this()在第一位"></a>this()在第一位</h3><p><img src="/2017/06/05/假前小充电-面向对象（一）/1.png" alt=""></p>
+<h3 id="this-调用其他构造器"><a href="#this-调用其他构造器" class="headerlink" title="this()调用其他构造器"></a>this()调用其他构造器</h3><p><img src="/2017/06/05/假前小充电-面向对象（一）/2.png" alt=""></p>
+<h3 id="另外讲一下this关键字和this-构造器的区别"><a href="#另外讲一下this关键字和this-构造器的区别" class="headerlink" title="另外讲一下this关键字和this()构造器的区别"></a>另外讲一下this关键字和this()构造器的区别</h3><p> this关键字指的当前对象，this()指的是当前类的构造器。<br>所有构造器（<em>this()和super()</em>)都必须放在第一句，所以当我们需要需要重复多次调用构造器时，我们应该转用this关键字。如<br><img src="/2017/06/05/假前小充电-面向对象（一）/3.png" alt=""><br> 应修改为<br><img src="/2017/06/05/假前小充电-面向对象（一）/4.png" alt=""></p>
+<h1 id="12-package-的两个作用是什么？"><a href="#12-package-的两个作用是什么？" class="headerlink" title="12.package 的两个作用是什么？"></a>12.package 的两个作用是什么？</h1><ul>
+<li>1、把功能相似或相关的类或接口组织在同一个包中，<strong>方便类的查找和使用。</strong>如同文件夹一样，包也采用了树形目录的存储方式。同一个包中的类名字是不同的，不同的包中的类的名字是可以相同的，当同时调用两个不同包中相同类名的类时，应该加上包名加以区别。因此，包可以<strong>避免名字冲突。</strong></li>
+<li>2、包也<strong>限定了访问权限</strong>，拥有包访问权限的类才能访问某个包中的类。</li>
+</ul>
+<h1 id="13-import-statis-叫做静态导入，那么其作用是什么？"><a href="#13-import-statis-叫做静态导入，那么其作用是什么？" class="headerlink" title="13.import statis 叫做静态导入，那么其作用是什么？"></a>13.import statis 叫做静态导入，那么其作用是什么？</h1><p>用于导入静态成员变量<br>用一句话来归纳import 和 import static 的作用：使用import可以省略写包名；而使用import static 可以连类名都省略<br>下面写一个例子来说明import static<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">import static java.lang.System.*;</div><div class="line">import static java.lang.Math.*;</div><div class="line">public class StaticImportTest</div><div class="line">&#123;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		// out是java.lang.System类的静态成员变量，代表标准输出</div><div class="line">		// PI是java.lang.Math类的静态成员变量，表示π常量</div><div class="line">		out.println(PI);</div><div class="line">		// 直接调用Math类的sqrt静态方法</div><div class="line">		out.println(sqrt(256));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="14-请详细快速的说明-private、default、protected、public-的区别。"><a href="#14-请详细快速的说明-private、default、protected、public-的区别。" class="headerlink" title="14.请详细快速的说明 private、default、protected、public 的区别。"></a>14.请详细快速的说明 private、default、protected、public 的区别。</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">.</th>
+<th style="text-align:center">private</th>
+<th style="text-align:center">default</th>
+<th style="text-align:center">protected</th>
+<th style="text-align:center">public</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">同一个类中</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:left">同一个包中</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:left">子类中</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:left">全局范围内</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">√</td>
+</tr>
+</tbody>
+</table>
+<h1 id="15-javabean-就是只包含属性和相关-getter-setter-方法，不包含业务逻辑处理的bean，这种说法对吗？"><a href="#15-javabean-就是只包含属性和相关-getter-setter-方法，不包含业务逻辑处理的bean，这种说法对吗？" class="headerlink" title="15.javabean 就是只包含属性和相关 getter/setter 方法，不包含业务逻辑处理的bean，这种说法对吗？"></a>15.javabean 就是只包含属性和相关 getter/setter 方法，不包含业务逻辑处理的bean，这种说法对吗？</h1><p>不对。<br>按照Javabean的规范，如果一个Java类的每个实例变量都使用private修饰，并为每个实例变量提供了public修饰的setter和getter方法，那么这个类就是一个符合JavaBean规范的类。<br>在这个规范中，明显我们可以定义一些方法来处理某个业务。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/04/假前小充电-Java-基础知识/" rel="next" title="假前小充电--Java 基础知识">
+                <i class="fa fa-chevron-left"></i> 假前小充电--Java 基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/15/假前小充电-面向对象（二）/" rel="prev" title="假前小充电-面向对象（二）">
+                假前小充电-面向对象（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg"
+               alt="wean" />
+          <p class="site-author-name" itemprop="name">wean</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wean2016" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简述面向对象和面向过程的区别和联系？"><span class="nav-number">1.</span> <span class="nav-text">1.简述面向对象和面向过程的区别和联系？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-对象和类的关系是？"><span class="nav-number">2.</span> <span class="nav-text">2.对象和类的关系是？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-堆和栈的特点是什么？分别存放什么内容？"><span class="nav-number">3.</span> <span class="nav-text">3.堆和栈的特点是什么？分别存放什么内容？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-局部变量使用之前，需要手动初始化吗？"><span class="nav-number">4.</span> <span class="nav-text">4.局部变量使用之前，需要手动初始化吗？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Java-中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？"><span class="nav-number">5.</span> <span class="nav-text">5.Java 中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-构造方法如何被调用？"><span class="nav-number">6.</span> <span class="nav-text">6.构造方法如何被调用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-系统一定会给我们添加无参数的构造方法吗-请详细解释。"><span class="nav-number">7.</span> <span class="nav-text">7.系统一定会给我们添加无参数的构造方法吗?请详细解释。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-构造方法能不能重载？"><span class="nav-number">8.</span> <span class="nav-text">8.构造方法能不能重载？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-this-在普通方法中，指的是哪个对象？在构造方法中，指的是？"><span class="nav-number">9.</span> <span class="nav-text">9.this 在普通方法中，指的是哪个对象？在构造方法中，指的是？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-静态初始化块和-main-方法哪个先被执行？"><span class="nav-number">10.</span> <span class="nav-text">10.静态初始化块和 main 方法哪个先被执行？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11-一个构造方法调用另一个构造方法怎么调用？this-这样的调用方式必须位于第一句吗？"><span class="nav-number">11.</span> <span class="nav-text">11.一个构造方法调用另一个构造方法怎么调用？this() 这样的调用方式必须位于第一句吗？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#this-在第一位"><span class="nav-number">11.0.1.</span> <span class="nav-text">this()在第一位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this-调用其他构造器"><span class="nav-number">11.0.2.</span> <span class="nav-text">this()调用其他构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#另外讲一下this关键字和this-构造器的区别"><span class="nav-number">11.0.3.</span> <span class="nav-text">另外讲一下this关键字和this()构造器的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12-package-的两个作用是什么？"><span class="nav-number">12.</span> <span class="nav-text">12.package 的两个作用是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#13-import-statis-叫做静态导入，那么其作用是什么？"><span class="nav-number">13.</span> <span class="nav-text">13.import statis 叫做静态导入，那么其作用是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#14-请详细快速的说明-private、default、protected、public-的区别。"><span class="nav-number">14.</span> <span class="nav-text">14.请详细快速的说明 private、default、protected、public 的区别。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-javabean-就是只包含属性和相关-getter-setter-方法，不包含业务逻辑处理的bean，这种说法对吗？"><span class="nav-number">15.</span> <span class="nav-text">15.javabean 就是只包含属性和相关 getter/setter 方法，不包含业务逻辑处理的bean，这种说法对吗？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wean</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

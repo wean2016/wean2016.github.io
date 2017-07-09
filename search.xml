@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[maven学习总结]]></title>
+      <url>/2017/07/08/maven%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</url>
+      <content type="html"><![CDATA[<p>初次了解maven后的一些知识总结和体会~<br><a id="more"></a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>步入假期后终于拜托了学校的课程可以有大把时间快活辣！~~~因为工作室的任务还没开始，所以自己先了解了感兴趣的方面—maven。  </p>
+<p>自己初次接触到maven是在今年五月底吧，那时想了解spring mvc框架，视频中用到了maven便跟着下载并配置了阿里云的maven仓库，但主要是在学习框架，对maven的了解变止步于安装和跟着视频打命令。  </p>
+<p>这次趁着有空在<a href="http://www.imooc.com/learn/443" target="_blank" rel="external">慕课网</a>跟着走了一遍maven的学习，所以本次学习笔记将基于这套视频。  </p>
+<h1 id="maven介绍"><a href="#maven介绍" class="headerlink" title="maven介绍"></a>maven介绍</h1><p>在<a href="http://maven.apache.org/" target="_blank" rel="external">apache Maven官网</a>上对maven的描述如下：  </p>
+<blockquote>
+<p>Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project’s build, reporting and documentation from a central piece of information.  </p>
+</blockquote>
+<p>从这段描述中可看出，maven是一个软件（特别是Java软件）项目管理及自动构建工具，主要用于项目的<strong>构建</strong>、<strong>报告</strong>、还有<strong>文档</strong>三个方面。而这次我是刚入门，所以记录学习的大多是<strong>项目的构建</strong>方面的知识点。  </p>
+<h1 id="maven环境搭建"><a href="#maven环境搭建" class="headerlink" title="maven环境搭建"></a>maven环境搭建</h1><p>由于之前已经安装过maven，且maven的安装较为简单，就不详细讲maven的安装步骤了。在这里主要点两个有用的点吧：  </p>
+<ol>
+<li>建议从<a href="http://maven.apache.org/" target="_blank" rel="external">apache Maven</a>上下载，下载工具可选择国内的某雷等。因为毕竟我们身处墙内，有些东西在墙外总是不好拿到的是不是？选择某雷可以利用其他下载用户的镜像加快下载速度。  </li>
+<li>下载安装完成后，可以将setting.xml文件中的中央仓库镜像地址修改为国内的阿里云镜像地址，这样下载各种jar包时速度会快很多。。原因同第一点。  </li>
+</ol>
+<p>下面贴一段需要修改的的地方的代码，如果不懂，google和百度上已经有很多更详细的配置教程啦。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;mirror&gt;</div><div class="line"></div><div class="line">   &lt;id&gt;alimaven&lt;/id&gt;</div><div class="line"></div><div class="line">   &lt;name&gt;aliyun maven&lt;/name&gt;</div><div class="line"></div><div class="line">   &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;</div><div class="line"></div><div class="line">   &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;        </div><div class="line"></div><div class="line">&lt;/mirror&gt;</div></pre></td></tr></table></figure></p>
+<p>只需将这段代码替换在<mirrors>标签中即可。  </mirrors></p>
+<h1 id="利用命令行构建第一个maven项目"><a href="#利用命令行构建第一个maven项目" class="headerlink" title="利用命令行构建第一个maven项目"></a>利用命令行构建第一个maven项目</h1><p>在cmd中切换到要创建项目的地址，输入命令：</p>
+<blockquote>
+<p>mvn archetype:generate  </p>
+</blockquote>
+<p>如图可以看到有10个模板可以选择：<br><img src="http://orqrihppm.bkt.clouddn.com/maven%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/1.PNG" alt=""><br>从1~10是apache给我们提供的十个项目构建模板，<strong>其中第七个是普通java项目的模板，第十个是webapp的模板</strong>。读者若是对其他模板感兴趣可自行谷歌，这里不再提及。</p>
+<p>在这里我们输入：<strong>7</strong>，选择第七个模板，之后会让我们定义项目属性的信息：<br><img src="http://orqrihppm.bkt.clouddn.com/maven%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/2.PNG" alt="">  </p>
+<p>其中各个属性的意思如下  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">例子</th>
+<th style="text-align:center">翻译</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">groupId</td>
+<td style="text-align:center">cn.wean2016.mavendemo</td>
+<td style="text-align:center">项目的标识符</td>
+</tr>
+<tr>
+<td style="text-align:center">artifactId</td>
+<td style="text-align:center">mavendemo1</td>
+<td style="text-align:center">本次创建的模块的Id</td>
+</tr>
+<tr>
+<td style="text-align:center">version</td>
+<td style="text-align:center">0.0.1-SNAPSHOT</td>
+<td style="text-align:center">本次创建的模块的版本号</td>
+</tr>
+<tr>
+<td style="text-align:center">package</td>
+<td style="text-align:center">cn.wean2016.mavendemo</td>
+<td style="text-align:center">项目的路径</td>
+</tr>
+</tbody>
+</table>
+<p>接下来对四个属性做一次详细的解释：  </p>
+<p><strong>groupId</strong>和<strong>artifactId</strong>被统称为项目的”坐标”。众所周知，”坐标”是具有唯一性的，有了一个坐标，我们就能根据这个坐标准确找到我们想要找的东西。同理，在maven仓库中，groupId和artifactId就是用来确定项目的模块的地址，方便我们后续对模块进行引用，继承。  </p>
+<p>用过git的人都知道，我们在写项目时会对版本进行迭代升级，这里的<strong>version</strong>属性就是项目的版本号。其中x.x.x中的第一部分为主版本号，第二部分为次版本号，第三部分为修订版，而SNAPSHOT代表快照的意思。对版本号感兴趣的读者可以参考<a href="http://jingyan.baidu.com/article/8cdccae9659f5c315413cde6.html" target="_blank" rel="external">版本号命名规则</a>。  </p>
+<p>而<strong>package</strong>属性就是我们项目的结构啦，各位写项目时一定有分层几个层次，这里就是预先设置项目的结构层次。  </p>
+<p>当出现以下提示时，说明第一个项目构建成功了<br><img src="http://orqrihppm.bkt.clouddn.com/maven%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/3.PNG" alt="">  </p>
+<h1 id="Maven常用命令详解"><a href="#Maven常用命令详解" class="headerlink" title="Maven常用命令详解"></a>Maven常用命令详解</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">mvn compile</td>
+<td style="text-align:center">将项目进行编译，默认生成的代码放在与src同级target目录下</td>
+</tr>
+<tr>
+<td style="text-align:center">mvn clean</td>
+<td style="text-align:center">清理target目录</td>
+</tr>
+<tr>
+<td style="text-align:center">mvn test</td>
+<td style="text-align:center">运行测试</td>
+</tr>
+<tr>
+<td style="text-align:center">mvn site</td>
+<td style="text-align:center">生成site</td>
+</tr>
+<tr>
+<td style="text-align:center">mvn package</td>
+<td style="text-align:center">将项目打包放在target目录下，至于打包的形式由pom.xml中的<packaging>标签决定</packaging></td>
+</tr>
+<tr>
+<td style="text-align:center">mvn install</td>
+<td style="text-align:center">将项目打包到本地仓库中</td>
+</tr>
+<tr>
+<td style="text-align:center">mvn jetty:run</td>
+<td style="text-align:center">在webapp项目中运行此命令可以将项目打包部署到jetty中并运行</td>
+</tr>
+<tr>
+<td style="text-align:center">mvn tomcat:run</td>
+<td style="text-align:center">在webapp项目中运行此命令可以将项目打包部署到tomcat中并运行</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Maven的pom-xml解析"><a href="#Maven的pom-xml解析" class="headerlink" title="Maven的pom.xml解析"></a>Maven的pom.xml解析</h1><p>正如我们使用xml文件来配置框架一样，pom.xml就是我们用来配置maven项目的文件。下面给出了一份常用的pom.xml并在注解中做了解释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">&lt;!--project是pom.xml的根元素--&gt;</div><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;</div><div class="line">    &lt;!--modelVersion定义了所用maven2的版本号，我们使用的是maven2，版本号固定为4.0.0--&gt;</div><div class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">    &lt;!--项目的id--&gt;</div><div class="line">  &lt;groupId&gt;com.imooc.webdemo&lt;/groupId&gt;</div><div class="line">    &lt;!--模块的id--&gt;</div><div class="line">  &lt;artifactId&gt;webdemo&lt;/artifactId&gt;</div><div class="line">    &lt;!--打包的形式--&gt;</div><div class="line">  &lt;packaging&gt;war&lt;/packaging&gt;</div><div class="line">    &lt;!--版本号--&gt;</div><div class="line">  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">    &lt;!--项目信息--&gt;</div><div class="line">  &lt;name&gt;webdemo Maven Webapp&lt;/name&gt;</div><div class="line">  &lt;url&gt;http://maven.apache.org&lt;/url&gt;</div><div class="line">    &lt;!--定义项目依赖块--&gt;</div><div class="line">  &lt;dependencies&gt;</div><div class="line">      &lt;!--定义具体的项目依赖--&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;!--依赖的坐标--&gt;</div><div class="line">      &lt;groupId&gt;junit&lt;/groupId&gt;</div><div class="line">      &lt;artifactId&gt;junit&lt;/artifactId&gt;</div><div class="line">      &lt;version&gt;4.10&lt;/version&gt;</div><div class="line">        &lt;!--依赖范围，只在测试时运行--&gt;</div><div class="line">      &lt;scope&gt;test&lt;/scope&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">      &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</div><div class="line">      &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;</div><div class="line">      &lt;version&gt;3.0.1&lt;/version&gt;</div><div class="line">      &lt;!--依赖范围，只在编译和测试时运行--&gt;</div><div class="line">      &lt;scope&gt;provided&lt;/scope&gt;</div><div class="line">        &lt;!--排除依赖传递列表--&gt;</div><div class="line">      &lt;exclusions&gt;</div><div class="line">          &lt;!--排除的具体依赖--&gt;</div><div class="line">        &lt;exclusion&gt;</div><div class="line">            &lt;groupId&gt;&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;&lt;/artifactId&gt;</div><div class="line">        &lt;/exclusion&gt;</div><div class="line">      &lt;/exclusions&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">  &lt;/dependencies&gt;</div><div class="line">    &lt;!--用于配置项目构建相关信息--&gt;</div><div class="line">  &lt;build&gt;</div><div class="line">      &lt;!--产生构建的文件名--&gt;</div><div class="line">    &lt;finalName&gt;webdemo&lt;/finalName&gt;</div><div class="line">      &lt;!--定义插件列表--&gt;</div><div class="line">    &lt;plugins&gt;</div><div class="line">        &lt;!--定义插件--&gt;</div><div class="line">      &lt;plugin&gt;</div><div class="line">          &lt;!--插件的坐标--&gt;</div><div class="line">        &lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;7.0.0.pre5&lt;/version&gt;</div><div class="line">          &lt;!--定义切点？（觉得类似spring框架中的ioc）--&gt;</div><div class="line">          &lt;executions&gt;</div><div class="line">              &lt;execution&gt;</div><div class="line">                  &lt;!--在打包成功后使用jetty:run来运行jetty服务--&gt;</div><div class="line">                  &lt;phase&gt;package&lt;/phase&gt;</div><div class="line">                  &lt;goals&gt;</div><div class="line">                      &lt;goal&gt;run&lt;/goal&gt;</div><div class="line">                  &lt;/goals&gt;</div><div class="line">              &lt;/execution&gt;</div><div class="line">          &lt;/executions&gt;</div><div class="line">      &lt;/plugin&gt;</div><div class="line">    &lt;/plugins&gt;</div><div class="line">  &lt;/build&gt;</div><div class="line"></div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure></p>
+<p>更详细的标签解释参照<a href="http://blog.csdn.net/oDeviloo/article/details/52050277" target="_blank" rel="external">Maven实战（三）–Pom.xml详解</a>  </p>
+<h1 id="maven的依赖"><a href="#maven的依赖" class="headerlink" title="maven的依赖"></a>maven的依赖</h1><h2 id="1-依赖的范围"><a href="#1-依赖的范围" class="headerlink" title="1.依赖的范围"></a>1.依赖的范围</h2><p>pom.xml–&gt;dependencies–&gt;dependency–&gt;scope和pom.xml–&gt;dependencyManagement–&gt;dependencies–&gt;dependency–&gt;scope定义了依赖的范围。下表给出了常用的选项的解释,参考自<a href="http://www.imooc.com/video/8648" target="_blank" rel="external">StudyDayDay的评论</a>  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">scope</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">compile</td>
+<td style="text-align:center">默认的范围，编译测试运行都有效</td>
+</tr>
+<tr>
+<td style="text-align:center">provided</td>
+<td style="text-align:center">在编译和测试的时有效</td>
+</tr>
+<tr>
+<td style="text-align:center">runtime</td>
+<td style="text-align:center">在测试和运行时有效</td>
+</tr>
+<tr>
+<td style="text-align:center">test</td>
+<td style="text-align:center">只在测试时有效</td>
+</tr>
+<tr>
+<td style="text-align:center">system</td>
+<td style="text-align:center">与本机系统有相关联，可移植性差</td>
+</tr>
+<tr>
+<td style="text-align:center">import</td>
+<td style="text-align:center">导入的范围，它只使用在dependencyManagement中，表示从其他的POM中导入dependency的配置</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-依赖的传递"><a href="#2-依赖的传递" class="headerlink" title="2.依赖的传递"></a>2.依赖的传递</h2><p>dependency可以定义依赖。假设，存在三个模块A,B,C。其中B依赖于A，C依赖于B。那么在IDE工具中可以看到C的依赖列表里有A的存在。这就是<strong>依赖的传递</strong>。<br>如果我们只希望C只依赖于B，不依赖于A，可以在pom.xml–&gt;dependencies–&gt;dependency–&gt;exclusions–&gt;exclusion中将A的坐标填上，便可排除C对A的依赖。  </p>
+<h2 id="3-依赖冲突"><a href="#3-依赖冲突" class="headerlink" title="3.依赖冲突"></a>3.依赖冲突</h2><p>引用自<a href="http://www.imooc.com/video/8650" target="_blank" rel="external">DR枫林残忆的评论</a>  </p>
+<p>依赖冲突时的优先顺序：<br>1.<strong>短路优先</strong><br>  有以下两条依赖：A-&gt;B-&gt;C-&gt;X(JAR)和A-&gt;D-&gt;X(JAR)，那么A-D-X这条优先解析<br>2.<strong>先声明先优先</strong><br>  如果路径长度相同，则谁先声明（在pom中出现的先后顺序），先解析谁  </p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[做一个优雅的程序员--架设自己的VPN]]></title>
+      <url>/2017/06/21/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/</url>
+      <content type="html"><![CDATA[<p>这篇文章记录了如何利用do架设VPN，达到无延迟使用github、google等工具。</p>
+<a id="more"></a>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本教程重点步骤会用黑体字括起来，如果不想听我BB可以直接略过看黑体字就可以。  </p>
+<p><strong>在你们阅读本篇教程之前，需要先准备以下要用到的东西:PayPal账号，PuTTy客户端，WinSCP。</strong></p>
+<h1 id="开始行动"><a href="#开始行动" class="headerlink" title="开始行动"></a>开始行动</h1><p>我们选择架设VPN的VPS是DigitalOcean家的，之所以选择do家的服务器是因为它是我了解到的第一个给学生提供优惠的外国服务器提供商。利用github给学生提供的Student Developer Pack，我们可以拿到do的50$优惠券，而我们本次使用的服务器价格是5$/M，所以相当于白白使用10个月，也是相当诱人的。而要选择外国服务器的原因当然是利用它当跳板才能访问墙外的站点嘛~  </p>
+<p><strong>首先是要注册DigitalOcean账号</strong>，<a href="https://cloud.digitalocean.com/registrations/new" target="_blank" rel="external">点击这里注册</a>,注册时需要我们提供邮箱和和支付信息，我填写的是我的gmail邮箱，国内的邮箱可以等你们自己尝试。而支付方式因为我没有信用卡，所以选择了PayPal。  </p>
+<p>绑定PayPal到我们的DigitalOcean账号时需要我们上交5$到我们的账号里，大家只要按着步骤走就可以了，亲测可以使用国内的普通银行卡。  </p>
+<p>紧接着我们就可以去<strong>选购我们的VPN服务器</strong>了，在这里我选择的<strong>镜像是ubuntu 17.04 64位版</strong> 图标如下：<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/image.PNG" alt="选择的镜像"><br><strong>尺寸是5$/M</strong>，内存512M，硬盘20GBSSD，每月限制流量1000GB的size，图标如下：<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/size.PNG" alt="选择的尺寸"><br>最后一个要选择的是<strong>节点</strong>，因为这个服务器商提供的机房都在国外，所以我们任选一个节点都可以达到出墙的目的啦。<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/datacenterRegion.PNG" alt="节点列表">  </p>
+<p>做完选购后我们就可以点击create拿到我们的VPS了，是不是很激动？！！</p>
+<h1 id="登陆服务器"><a href="#登陆服务器" class="headerlink" title="登陆服务器"></a>登陆服务器</h1><p>接下来进入到Droplets中，这里会有我们的服务器列表，不出意外的话，里面现在会静静躺着你刚才购买的那台服务器（这里我一开始选择的镜像是centos，所以名字会跟你们不一样）：<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/Droplets.PNG" alt="服务器列表"></p>
+<p>然后我们就要<strong>去注册账号时的邮箱</strong>查看我们的服务器了，里面会给我们提供服务器的密码，看到后邮件后，转身，打开另一个我们一开始准备的东西：PuTTy客户端：<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/PuTTy.PNG" alt="PuTTy"><br>双击<strong>打开PuTTY客户端，输入邮件中提供的ip地址，点击open</strong>:<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/PuTTyOperate.PNG" alt="操作PuTTy"><br>复制邮件中提供的用户名（一般是root），在PuTTy中右键、回车，进入输入密码的界面，照样操作后会提示你再次输入邮件中的密码（再次右键），然后输入两次新密码。<strong>密码不会显示出来</strong><br><strong>总结这一步就是：输入一次用户名，输入两次旧密码，再输入两次新密码，一般新密码要求复杂，要大小写加数字</strong>  </p>
+<h1 id="架设VPN"><a href="#架设VPN" class="headerlink" title="架设VPN"></a>架设VPN</h1><p>网上的教程大多很复杂，对linux初学者来说可能会绝望，所以这里我给大家提供了一条最简单的道路：<br><strong>打开<a href="https://github.com/quericy/one-key-ikev2-vpn" target="_blank" rel="external">一键部署VPN脚本</a>,依次复制里面三条命令到PuTTY客户端右键、回车，然后就可以坐等了。  </strong><br>接下来你会看到很多东西不断在PuTTy中进行，甚至有点像死循环，不要紧张怀疑，等下去。最后会让你选择服务器的类型，do的服务器类型是KVM，所以<strong>只要输入1</strong>就可以通过第一个问题，接下来的问题可以<strong>一路回车</strong>带过。</p>
+<p>当屏幕出现install Complete时，我们的安装就完成了！（<strong>记不住此时PuTTy上提供的账号资料的同学建议鼠标选中账号信息，Ctrl+C复制到本地文本上保存</strong>）  </p>
+<h1 id="连接VPN"><a href="#连接VPN" class="headerlink" title="连接VPN"></a>连接VPN</h1><p><strong>打开WinSCP</strong>,输入刚才注册的服务器的信息：<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/WinSCP.PNG" alt="WinSCP"><br>点击登陆，进入到PuTTy中提示的证书的地址下，<strong>将证书复制到电脑上</strong>：<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/cer.PNG" alt="cerAddress"><br><strong>修改证书后缀为.cer</strong></p>
+<p>接下来具体说明Win10和Iphone如何使用这个vpn，其他客户端的同学可以按照github上的教程自己摸索  </p>
+<p><strong>win10</strong><br>双击打开证书，选择<strong>导入到“本地计算机”的”受信任的根证书颁发机构”</strong><br>双击打开证书，选择<strong>导入到“本地计算机”的”受信任的根证书颁发机构”</strong><br>双击打开证书，选择<strong>导入到“本地计算机”的”受信任的根证书颁发机构”</strong>  </p>
+<p>打开命令行，输入以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">powershell    #进入ps控制台</div><div class="line">get-vpnconnection    #检查vpn连接的设置（包括vpn连接的名称）</div><div class="line">set-vpnconnection &quot;vpn连接名称&quot; -splittunneling $false    #关闭split tunneling</div><div class="line">get-vpnconnection   #检查修改结果</div><div class="line">exit   #退出ps控制台</div></pre></td></tr></table></figure></p>
+<p>然后进入系统设置如图配置VPN：<br><img src="http://orqrihppm.bkt.clouddn.com/%E5%81%9A%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98-%E6%9E%B6%E8%AE%BE%E8%87%AA%E5%B7%B1%E7%9A%84VPN/add.PNG" alt="add"><br>重启电脑后连接VPN就可以翻墙了  </p>
+<p><strong>iphone</strong><br>将刚才制作好的证书发送到自己的邮箱上，用Safari打开后添加到手机上，然后在设置里配置就可以使用了，类型为IKEv2。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>学会自己架设外国公司的VPS的VPN真的很舒服，因为国外的服务器提供商不同于国内的服务器提供商（腾讯等）以带宽收费，而是以流量收费，即国外的服务器是“速度快，按流量计费”，使得我们架设出来的VPN可以流畅看youtubu720P，满速下载GitHub上的项目到本机上！！</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[假前小充电-容器]]></title>
+      <url>/2017/06/16/%E5%81%87%E5%89%8D%E5%B0%8F%E5%85%85%E7%94%B5-%E5%AE%B9%E5%99%A8/</url>
+      <content type="html"><![CDATA[<p>记录了容器的几个问题<br><a id="more"></a></p>
+<h1 id="Collection-Set-List-的联系跟区别。"><a href="#Collection-Set-List-的联系跟区别。" class="headerlink" title="Collection/Set/List 的联系跟区别。"></a>Collection/Set/List 的联系跟区别。</h1><p>从联系方面讲，这三个都是接口，而且Set和List是在Collection接口的基础上做了继承和扩充的子接口。并且存入其中的对象都会被“遗忘“掉对象的类型，即这三个容器里的对象默认都是保存为Object类型。</p>
+<p>区别是Collection作为Set和List的父接口，给我们定义了操作Set和List的基本方法。而Set和List的实现类的实现方式存在较大差异：  </p>
+<ul>
+<li>Set类的第一个特点是<strong>不可重复性</strong>，当往Set里面存入元素时，Set会根据存入元素和集合里的元素的equals()方法和HashCode()方法的返回值做一次判断，若存入元素和集合里存在的某个元素的这两个方法的返回值相同，则认定集合中已经存在该元素而<strong>拒绝添加</strong>。当然我们也可以通过重写存入元素的equals()方法HashCode（）方法来实现”重复“存入，但这就与java集合的规则冲突了；另一个特点是<strong>无序性</strong>对于大多数Set集合的实现类，其保存的元素都是以hash值作为排序的依据而不是按添加的顺序作为排序的顺序，少数Set集合如TreeSet和LinkedHashSet等则比较特殊，不会遵从无序性，其中TreeSet是通过元素的CompareTo()方法或者程序员自己定制的排序方法来实现排序，而LinkedHashSet则是通过维持一张链表来记录顺序。  </li>
+<li>List跟Set相比有点相反的味道，List集合<strong>允许重复存入相同的元素并且能维持一定的顺序</strong>。</li>
+</ul>
+<h1 id="我想定义一个数组、该数组既可以放：Dog-对象，也可以放-Cat-对象，还可以放Integer-对象，怎么定义？"><a href="#我想定义一个数组、该数组既可以放：Dog-对象，也可以放-Cat-对象，还可以放Integer-对象，怎么定义？" class="headerlink" title="我想定义一个数组、该数组既可以放：Dog 对象，也可以放 Cat 对象，还可以放Integer 对象，怎么定义？"></a>我想定义一个数组、该数组既可以放：Dog 对象，也可以放 Cat 对象，还可以放Integer 对象，怎么定义？</h1><p>定义一个Object[]数组</p>
+<h1 id="说出-ArrayList、LinkedList、Vector-的区别"><a href="#说出-ArrayList、LinkedList、Vector-的区别" class="headerlink" title="说出 ArrayList、LinkedList、Vector 的区别"></a>说出 ArrayList、LinkedList、Vector 的区别</h1><ul>
+<li>ArrayList和Vector的区别在于Vector实现了线程安全而ArrayList没有。  </li>
+<li>LinkeList和ArrayList还有Vector的区别在于LinkeList还实现了Deque接口，这意味着LinkedList<strong>可以作为双端来使用</strong>，因此既可以作为”栈“使用，也可以作为队列使用（我认为它实际上就是用来代替性能较差Stack类）。</li>
+<li>另外LinkedList和ArrayList还有Vector的另一个巨大的区别在于他们的实现方式不同。ArrayList与Vector的实现方式是通过<strong>封装一个Object[]数组</strong>实现的（这个数据的默认长度是16，可以通过方法来修改这个数），而LinkeList是通过<strong>链表</strong>的形式来保存集合中的元素。这两种不同的实现方式也决定了他们在执行不同操作的性能不同。在随机访问集合时，ArrayList、Vector 的性能较好；在插入、删除元素时LinkedList的性能较好。</li>
+</ul>
+<h1 id="HashSet-和-TreeSet-的区别？"><a href="#HashSet-和-TreeSet-的区别？" class="headerlink" title="HashSet 和 TreeSet 的区别？"></a>HashSet 和 TreeSet 的区别？</h1><p>区别在于他们维持集合中元素的顺序的方式不同。  </p>
+<ul>
+<li>HashSet通过维持一张Hash表，把元素按HashCode()返回的值作为元素保存在集合中的位置。如果因为程序员重写了HashCode()和equals()方法导致在HashSet中存入了equals()返回值不同但是HashCode()返回值相同的元素时，这些HashCode()返回值相同的元素会以链表的形式存在该Hash值在Set中的位置。</li>
+<li>TreeSet通过维持一颗红黑树来维持集合中元素的顺序。这种顺序有两种实现方式：1、自然排序：根据元素的CompareTo()方法的返回值决定后续加入的元素的在这棵树上插入的位置。 2、定制排序：在创建TreeSet时，提供一个Comparator对象与该TreeSet集合关联，由该Comparator对象负责集合元素的排序逻辑。  </li>
+</ul>
+<h1 id="Map-中，key-是否能重复？如果重复，会有什么现象？"><a href="#Map-中，key-是否能重复？如果重复，会有什么现象？" class="headerlink" title="Map 中，key 是否能重复？如果重复，会有什么现象？"></a>Map 中，key 是否能重复？如果重复，会有什么现象？</h1><p>key不能重复。但与Set不同，插入key相同的entry时，map会覆盖掉之前的entry。  </p>
+<h1 id="使用泛型有什么好处？"><a href="#使用泛型有什么好处？" class="headerlink" title="使用泛型有什么好处？"></a>使用泛型有什么好处？</h1><p>引用自<a href="http://blog.csdn.net/sun_abc/article/details/5906765" target="_blank" rel="external">sun_abc的博客</a><br>1，<strong>类型安全。</strong> 泛型的主要目标是提高 Java 程序的类型安全。通过知道使用泛型定义的变量的类型限制，编译器可以在一个高得多的程度上验证类型假设。没有泛型，这些假设就只存在于程序员的头脑中（或者如果幸运的话，还存在于代码注释中）。</p>
+<p>2，<strong>消除强制类型转换。</strong> 泛型的一个附带好处是，消除源代码中的许多强制类型转换。这使得代码更加可读，并且减少了出错机会。</p>
+<p>3，<strong>潜在的性能收益。</strong> 泛型为较大的优化带来可能。在泛型的初始实现中，编译器将强制类型转换（没有泛型的话，程序员会指定这些强制类型转换）插入生成的字节码中。但是更多类型信息可用于编译器这一事实，为未来版本的 JVM 的优化带来可能。由于泛型的实现方式，支持泛型（几乎）不需要 JVM 或类文件更改。所有工作都在编译器中完成，编译器生成类似于没有泛型（和强制类型转换）时所写的代码，只是更能确保类型安全而已。</p>
+<h1 id="采用增强-for-循环遍历-List-或者-Set，如果-List-或者-Set-没有加泛型，能遍历吗？"><a href="#采用增强-for-循环遍历-List-或者-Set，如果-List-或者-Set-没有加泛型，能遍历吗？" class="headerlink" title="采用增强 for 循环遍历 List 或者 Set，如果 List 或者 Set 没有加泛型，能遍历吗？"></a>采用增强 for 循环遍历 List 或者 Set，如果 List 或者 Set 没有加泛型，能遍历吗？</h1><p>在《疯狂Java讲义》第三版P334上的例子可以实现不加泛型，但是我照着书本打了</p>
+<h1 id="Collection-和-Collections-有什么区别？"><a href="#Collection-和-Collections-有什么区别？" class="headerlink" title="Collection 和 Collections 有什么区别？"></a>Collection 和 Collections 有什么区别？</h1><p>Collection是一个接口，定义了集合的常用方法。<br>Collections是一个操作集合的工具类，该工具类里提供了大量方法对集合进行排序、查询和修改操作，还提供了将集合对象设置为不可变、对集合对象实现同步控制等方法。  </p>
+<h1 id="Hashtable-和-HashMap-的区别和联系？"><a href="#Hashtable-和-HashMap-的区别和联系？" class="headerlink" title="Hashtable 和 HashMap 的区别和联系？"></a>Hashtable 和 HashMap 的区别和联系？</h1><p>Hashtable 和 HashMap的联系在于两者都实现了Map接口，在大多数情况下两者可以互相替代。<br>区别在于Hashtable是线程安全的，而HashMap不是。当然我们也可以使用Collections工具把HashMap变成线程安全的。<br>另一点不同是Hashtable不接受null值而HashMap可以使用null，这意味者Hashtable中的value都不能为null，并只能有一个key为null。<br>最后一点不同是两者实现的iterator不同。。。。这个有点蛋疼，记得在《疯狂Java讲义》上看过相关介绍，但是怎么翻都找不到。。谷歌也不能让我明白。。明晚去问问人……下面引用一段来自谷歌的解释。。如果你们看懂了记得跟我讲讲啊…………  </p>
+<blockquote>
+<p>HashMap中的迭代器是故障安全的，而Hashtable的枚举器不是并且抛出ConcurrentModificationException，如果任何其他线程通过添加或删除除了Iterator自己的remove（）方法之外的任何元素结构地修改Map。但这不是一个保证的行为，将由JVM尽力而为。<br>故障安全与迭代器的上下文相关。如果在集合对象上创建了一个迭代器，并且某些其他线程尝试在“结构上”修改集合对象，则会抛出并发修改异常。尽管其他线程也可能调用“set”方法，因为它不会在结构上修改集合。但是，如果在调用“set”之前，集合已被结构地修改，将抛出“IllegalArgumentException”。<br>结构修改意味着删除或插入可以有效改变Map结构的元素。</p>
+</blockquote>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[假前小充电-异常机制]]></title>
+      <url>/2017/06/16/%E5%81%87%E5%89%8D%E5%B0%8F%E5%85%85%E7%94%B5-%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/</url>
+      <content type="html"><![CDATA[<p>记录了异常机制的几个问题<br><a id="more"></a></p>
+<h1 id="Java-中，处理异常的的两大步是？"><a href="#Java-中，处理异常的的两大步是？" class="headerlink" title="Java 中，处理异常的的两大步是？"></a>Java 中，处理异常的的两大步是？</h1><p>java处理异常主要分两步：1、捕获异常 2、抛出或者处理异常<br><strong>捕获异常</strong>要求我们在可能出现异常的地方使用try块包围起来，jvm在执行代码时若是捕捉到了异常，就会去寻找相应的异常catch块处理，若是我们不使用try块包围起来，异常就会直接抛给JVM。（JVM处理异常的方式是在标准错误流打印出异常消息并终止程序，这显然不是我们实际运行程序时想要的结果）<br><strong>抛出或者处理异常</strong>指的是在业务逻辑不正确的地方手动抛出异常交给java程序捕获处理，catch住异常并处理异常，将当前方法不能处理抛给上一层处理，或者不能完全处理的代码处理一部分后将异常抛给上一级继续处理。</p>
+<h1 id="如果-catch-两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？"><a href="#如果-catch-两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？" class="headerlink" title="如果 catch 两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？"></a>如果 catch 两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？</h1><p>所有父类异常的catch块都应该放在子类异常的catch块后面（简称：<strong>先处理小异常，再处理大异常</strong>），否则将出现错误，下面演示了这个错误的情景：<br><img src="/2017/06/16/假前小充电-异常机制/1.png" alt=""><br>在这个例子中NullPointerException是RuntimeException异常的子类，将其放在后面显然就违背了异常处理的顺序，所以编译时便报错了。<br>从道理上来讲也是这样的，若是父类异常的catch放在前面，那么子类异常也就永远没有执行的机会了，这显然也不符合我们设计程序的思路。  </p>
+<h1 id="Error-和-Exception-的区别和联系？"><a href="#Error-和-Exception-的区别和联系？" class="headerlink" title="Error 和 Exception 的区别和联系？"></a>Error 和 Exception 的区别和联系？</h1><p>这个问题其实可以用一张图来描述：<br><img src="/2017/06/16/假前小充电-异常机制/2.png" alt=""></p>
+<p> 在联系方面，如图Error和Exception都集成于Throwable类，都是Java程序运行时的非正常情况<br>在区别方面，用一句话讲就是：Error应用程序无能力处理，Exception应用程序可以处理。<br>下面给出一段Eorror的介绍帮助读者加深对Error的理解：  </p>
+<blockquote>
+<p>Error错误，一般是指与虚拟机的相关的问题，如系统奔溃、虚拟机错误、动态链接失败等，这种错误无法恢复或者不可能捕获，将导致应用程序中断。通常应用程序无法处理这些错误，因此应用程序不应该使用catch块来捕获Error对象。在定义该方法时，也无需在其throws子句中声明该方法可能抛出的Error及其任何子类。  </p>
+</blockquote>
+<h1 id="Throwable-是一个类还是接口？"><a href="#Throwable-是一个类还是接口？" class="headerlink" title="Throwable 是一个类还是接口？"></a>Throwable 是一个类还是接口？</h1><p>是一个类 ，通过查阅API文档可知该类定义了我们使用Exception常用的几个方法：getMessage、printStackTrace等，显然我们自定义异常类就是通过重写这几个方法来达到我们的目的。  </p>
+<h1 id="方法重写时，子类声明异常能否超出父类的范围？"><a href="#方法重写时，子类声明异常能否超出父类的范围？" class="headerlink" title="方法重写时，子类声明异常能否超出父类的范围？"></a>方法重写时，子类声明异常能否超出父类的范围？</h1><p>不能噢。方法重写有一条规则：<strong>子类方法声明抛出的异常类型应该是父类方法抛出异常类型的子类或者相同，子类方法声明抛出的异常不允许比父类方法声明抛出的异常多。</strong><br>下面引用《疯狂Java讲义》的一段代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class OverrideThrows</div><div class="line">&#123;</div><div class="line">	public void test()throws IOException</div><div class="line">	&#123;</div><div class="line">		FileInputStream fis = new FileInputStream(&quot;a.txt&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">class Sub extends OverrideThrows</div><div class="line">&#123;</div><div class="line">	// 子类方法声明抛出了比父类方法更大的异常</div><div class="line">	// 所以下面方法出错</div><div class="line">	public void test()throws Exception</div><div class="line">	&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编译上面一段程序将会报错<br><img src="/2017/06/16/假前小充电-异常机制/3.png" alt=""></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[假前小充电-面向对象（二）]]></title>
+      <url>/2017/06/15/%E5%81%87%E5%89%8D%E5%B0%8F%E5%85%85%E7%94%B5-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+      <content type="html"><![CDATA[<p>记录了java面向对象的几个问题<br><a id="more"></a></p>
+<hr>
+<h1 id="Java-中如果没有使用-extends-那么默认继承了哪个类？"><a href="#Java-中如果没有使用-extends-那么默认继承了哪个类？" class="headerlink" title="Java 中如果没有使用 extends,那么默认继承了哪个类？"></a>Java 中如果没有使用 extends,那么默认继承了哪个类？</h1><p>默认继承了java.lang.Object类，因此，Object是其他所有类的父类  </p>
+<h1 id="重写（override）指的是什么？"><a href="#重写（override）指的是什么？" class="headerlink" title="重写（override）指的是什么？"></a>重写（override）指的是什么？</h1><p>子类包含与父类同名的方法称为<strong>重写（Override）</strong>，也称为方法重载。下面的代码演示了重载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * 创建一个父类</div><div class="line"> */</div><div class="line">class superClass &#123;</div><div class="line">    //父类中的方法</div><div class="line">    protected String test()&#123;</div><div class="line">        System.out.println(&quot;test的父类方法&quot;);</div><div class="line">        return &quot;success&quot;;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">/*</div><div class="line"> * 编写一个子类</div><div class="line"> */</div><div class="line">public class Test extends superClass&#123;</div><div class="line">    //重写父类的test方法                                        </div><div class="line">    public String test()&#123;</div><div class="line">        System.out.println(&quot;重写父类的方法&quot;);</div><div class="line">        return &quot;success&quot;;</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        new Test().test();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行main方法将会打印出“重写父类方法”<br>值得一提的是，当子类覆盖父类方法后，子类的<strong><em>对象</em></strong>将无法访问父类中被覆盖的方法，但是可以在子类<strong><em>方法</em></strong>中调用父类中被覆盖的方法。<br>如果需要在子类的方法中调用父类中被覆盖的方法，则可以使用super（被覆盖的是实例方法）或者父类类名（被覆盖的是类方法）作为调用者来调用父类中被覆盖的方法。下面代码演示了一个调用父类中被重写的方法的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//在子类方法中通过super显示调用父类被覆盖的实例方法</div><div class="line">public void runMethodInSuperClass()&#123;</div><div class="line">    super.test();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Java-中有没有多继承？"><a href="#Java-中有没有多继承？" class="headerlink" title="Java 中有没有多继承？"></a>Java 中有没有多继承？</h1><p>没有。从复杂性来说，如果一个类S继承了两个类A,B。而A,B都有一个方法M。那么继承时就会需要解决问题–是要继承A的方法M还是继承B的，给开发增加了复杂性。<br>下面的例子做了验证<br><img src="/2017/06/15/假前小充电-面向对象（二）/1.png" alt=""><br>说个题外话，对多继承的实现方法感兴趣的可以了解一下C++如何实现多继承</p>
+<h1 id="叙述一下，有继承结构时，构造函数的调用顺序。"><a href="#叙述一下，有继承结构时，构造函数的调用顺序。" class="headerlink" title="叙述一下，有继承结构时，构造函数的调用顺序。"></a>叙述一下，有继承结构时，构造函数的调用顺序。</h1><p>下面定义三个类，他们之间有严格的继承顺序，通过这种继承关系来说明构造器的调用顺序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">class Creature</div><div class="line">&#123;</div><div class="line">	public Creature()</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;Creature无参数的构造器&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">class Animal extends Creature</div><div class="line">&#123;</div><div class="line">	public Animal(String name)</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;Animal带一个参数的构造器，&quot;</div><div class="line">			+ &quot;该动物的name为&quot; + name);</div><div class="line">	&#125;</div><div class="line">	public Animal(String name , int age)</div><div class="line">	&#123;</div><div class="line">		// 使用this调用同一个重载的构造器</div><div class="line">		this(name);</div><div class="line">		System.out.println(&quot;Animal带两个参数的构造器，&quot;</div><div class="line">			+ &quot;其age为&quot; + age);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">public class Wolf extends Animal</div><div class="line">&#123;</div><div class="line">	public Wolf()</div><div class="line">	&#123;</div><div class="line">		// 显式调用父类有两个参数的构造器</div><div class="line">		super(&quot;灰太狼&quot;, 3);</div><div class="line">		System.out.println(&quot;Wolf无参数的构造器&quot;);</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		new Wolf();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行该程序将会输出</p>
+<blockquote>
+<p>Creature无参数的构造器<br>Animal带一个参数的构造器，该动物的name为灰太狼<br>Animal带两个参数的构造器，其age为3<br>Wolf无参数的构造器</p>
+</blockquote>
+<p>从上面运行的过程来看，创建任何对象总是从该类的所在继承树最顶层的构造器开始执行，然后依次向下执行，最后才执行本类的构造器。如果某个类通过this调用了同类中重载的构造器，就会依次执行此父类的多个构造器。</p>
+<h1 id="重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。"><a href="#重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。" class="headerlink" title="重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。"></a>重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。</h1><p>可以。方法的覆盖要遵循“两同两小一大”原则，“两同即方法名相同，形参列表相同，”两小“指的是子类方法返回值类型应比父类方法的返回值类型更小或者相等，子类方法声明抛出的异常类型应比父类方法声明抛出的异常类型更小或者相等，”一大“指的是子类方法的访问权限更大或者相等。  </p>
+<p>在用例子说明之前我们先简单讲下<strong>@Override</strong>注解：<br>@Override 就是用来指定方法覆盖的，他可以强制一个子类必须覆盖父类的方法，在编译时，编译器会检查被@Override注解的方法，确保该方法必须重写一个方法（来自父类或者接口），否则将会报错：<br><img src="/2017/06/15/假前小充电-面向对象（二）/2.png" alt=""><br>通过@Override 可以确保我们接下来的例子中是重写了方法而不是定义了一个新方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class SuperClass &#123;</div><div class="line">    //定义一个方法返回Object</div><div class="line">    public Object method()&#123;</div><div class="line">        System.out.println(&quot;父类&quot;);</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">public class Test extends SuperClass &#123;</div><div class="line">    </div><div class="line">    @Override //使用注解确保是重写了方法</div><div class="line">    public Test method()&#123;   //重写父类中的method方法，返回值为Test</div><div class="line">        super.method();</div><div class="line">        System.out.println(&quot;子类&quot;);</div><div class="line"></div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        new Test().method();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该例子可以顺利编译运行说明我们成功重写了父类的method并使用了不同的返回类型  </p>
+<h1 id="多态的三个必要条件是什么？"><a href="#多态的三个必要条件是什么？" class="headerlink" title="多态的三个必要条件是什么？"></a>多态的三个必要条件是什么？</h1><p>Java实现多态有三个必要条件：继承、重写、向上转型。<br>继承：在多态中必须存在有继承关系的子类和父类。<br>重写：子类对父类中某些方法进行重新定义，在调用这些方法时就会调用子类的方法。<br>向上转型：在多态中需要将子类的引用赋给父类对象，只有这样该引用才能够具备技能调用父类的方法和子类的方法。</p>
+<hr>
+<h1 id="Java-的方法绑定采用动态绑定还是静态绑定？"><a href="#Java-的方法绑定采用动态绑定还是静态绑定？" class="headerlink" title="Java 的方法绑定采用动态绑定还是静态绑定？"></a>Java 的方法绑定采用动态绑定还是静态绑定？</h1><p>被final, static, private 修饰的方法和构造方法是静态绑定的，其他方法是动态绑定的  </p>
+<p>在详细介绍这个问题前先说明程序绑定， 静态绑定， 动态绑定的定义。<br><strong>程序绑定</strong>：程序绑定指的是将方法的调用和方法的主体连接起来。举个应用了绑定例子：存在一个父类和子类，子类中重写了父类的某个方法，程序运行时，决定调用的是父类中的方法还是子类中的方法就是绑定。<br><strong>静态绑定</strong>：在将.java文件编译成二进制文件（.class）文件时就已经确定下来方法的主体是谁就是静态绑定。在java中只有final，static，private和构造方法是前期绑定。<br><strong>动态绑定</strong>：在运行时根据具体对象进行绑定。<br>若是一种语言实现了动态绑定，它必然会提供一些机制，让程序在运行时确定判断对象的类型，决定调用的方法。  </p>
+<p>final, static, private 和构造方法是静态绑定的解释：<br><strong>final</strong>定义的方法不可被重写，所以调用的都是那一个方法，也就可以实现静态绑定了。<br>对<strong>static</strong>方法我的理解是，static修饰的方法是类方法，在jvm加载类时就已经确定下来，跟类绑定在一起，所以是静态绑定。下面定义一个Person类和画一张图来解释类和实例在内存中的关系：<br>Person类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">class Person &#123;</div><div class="line">    public static Integer armNum = 2;</div><div class="line">    public String name;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/06/15/假前小充电-面向对象（二）/3.png" alt=""><br>图中p1, p2是Person的两个实例。<br>显然，p1, p2的armNum属性使用的都是该实例的类（Person）中的armNum属性。显然，armNum属性在类加载时就已经静态绑定。对于static静态方法也是同样的道理。<br>另外，下面一段程序  演示了子类不会继承父类的static方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">class SuperClass &#123;</div><div class="line">	public static void method()&#123;</div><div class="line">		System.out.println(&quot;父类的静态方法&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class Test extends SuperClass&#123;</div><div class="line">	</div><div class="line">	@Override</div><div class="line">	public static void method()&#123;</div><div class="line">		System.out.println(&quot;子类的静态方法&quot;);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args)&#123;</div><div class="line">		SuperClass sp = new Test();</div><div class="line">		sp.method();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行编译会报错<br><img src="/2017/06/15/假前小充电-面向对象（二）/4.png" alt=""><br>所以，子类和父类中有一个名字相同的方法时，子类是重新定义了一个新的方法而不是继承并重写父类的该方法，显然是静态绑定。<br><strong>private</strong>，在面向对象（一）中讲过private修饰符修饰的方法不能被子类继承，所以也就不存在被子类重写的情况，显然也是静态绑定。<br><strong>构造器</strong>是不可被继承的，所以是静态绑定。  </p>
+<p>讲完了静态绑定，下面讲一下动态绑定<br>动态绑定往往发生在方法的重载时，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Animal an = new Dog();</div><div class="line">an.action();</div></pre></td></tr></table></figure></p>
+<p>运行此程序，调用的是Dog类重写的action方法而不是Animal类的action方法，这就是动态绑定。<br>摘录一段java实现动态绑定的过程：</p>
+<blockquote>
+<p>作者：zhangjk1993  <a href="http://blog.csdn.net/zhangjk1993/article/details/24066085" target="_blank" rel="external">来源</a><br>1：编译器检查对象的声明类型和方法名。<br>假设我们调用x.f(args)方法，并且x已经被声明为C类的对象，那么编译器会列举出C 类中所有的名称为f 的方法和从C 类的超类继承过来的f 方法。<br>2：接下来编译器检查方法调用中提供的参数类型。<br>如果在所有名称为f 的方法中有一个参数类型和调用提供的参数类型最为匹配，那么就调用这个方法，这个过程叫做“重载解析”。<br>3：当程序运行并且使用动态绑定调用方法时，虚拟机必须调用同x所指向的对象的实际类型相匹配的方法版本。<br>假设实际类型为D(C的子类)，如果D类定义了f(String)那么该方法被调用，否则就在D的超类中搜寻方法f(String),依次类推。  </p>
+</blockquote>
+<h1 id="final-修饰变量、方法、类分别表示什么含义？"><a href="#final-修饰变量、方法、类分别表示什么含义？" class="headerlink" title="final 修饰变量、方法、类分别表示什么含义？"></a>final 修饰变量、方法、类分别表示什么含义？</h1><p>final修饰变量时，表示该变量一旦获得初始值就不可被改变。<br>修饰方法时表示该方法不可被重写。<br>修饰类时表示该类不能有子类。常见的final类就有上面讲java多继承时我写的Integer类，Double类等。（之所以不影响上图的例子是因为判断一个类是否是继承了不可重写类是在jvm加载类时判断的，而上图演示的时编译时的状态，故不冲突）  </p>
+<h1 id="final-修饰的方法能不能被重载和重写？"><a href="#final-修饰的方法能不能被重载和重写？" class="headerlink" title="final 修饰的方法能不能被重载和重写？"></a>final 修饰的方法能不能被重载和重写？</h1><p>下面的例子演示了final修饰的方法可以重载<br><img src="/2017/06/15/假前小充电-面向对象（二）/5.png" alt=""><br>final修饰的方法看似可以重写，编译运行都正常，如下图<br><img src="/2017/06/15/假前小充电-面向对象（二）/6.jpg" alt=""><br>实际上是子类重新写了一个同名的方法，只要加上一个@Override可以验证：<br><img src="/2017/06/15/假前小充电-面向对象（二）/7.jpg" alt=""></p>
+<blockquote>
+<p>final关键字的好处（<a href="http://www.importnew.com/7553.html" target="_blank" rel="external">出处点这里</a>）</p>
+</blockquote>
+<p>1.final关键字提高了性能。JVM和Java应用都会缓存final变量。</p>
+<p>2.final变量可以安全的在多线程环境下进行共享，而不需要额外的同步开销。</p>
+<p>3.使用final关键字，JVM会对方法、变量及类进行优化。</p>
+<h1 id="包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？"><a href="#包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？" class="headerlink" title="包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？"></a>包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？</h1><p>有抽象方法的类只能被定义成抽象类，抽象类可以不含有抽象方法。  </p>
+<h1 id="抽象类的构造方法能不能被调用？"><a href="#抽象类的构造方法能不能被调用？" class="headerlink" title="抽象类的构造方法能不能被调用？"></a>抽象类的构造方法能不能被调用？</h1><p><img src="/2017/06/15/假前小充电-面向对象（二）/8.png" alt=""><br> 如图，不能。</p>
+<h1 id="接口中有没有多继承？"><a href="#接口中有没有多继承？" class="headerlink" title="接口中有没有多继承？"></a>接口中有没有多继承？</h1><p>有。我个人理解是类的方法体的程序片段都不同，若是多继承需要判断继承哪个父类的方法，提高了程序的复杂性，所以java取消了类的多继承。<br>但是接口的多继承并不会造成这种问题。<br>java的接口体中只进行方法的声明，不允许提供方法的实现。这样即使该接口继承了多个接口中都有定义该方法，但是都没有方法体，也就无所谓继承了具体哪个方法了。<br>但值得一提的是，java中接口的多继承要求如果多个接口都定义了一个同名的方法，该方法的返回值必须相同：<br><img src="/2017/06/15/假前小充电-面向对象（二）/9.jpg" alt=""></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[假前小充电--面向对象（一）]]></title>
+      <url>/2017/06/05/%E5%81%87%E5%89%8D%E5%B0%8F%E5%85%85%E7%94%B5-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+      <content type="html"><![CDATA[<hr>
+<h1 id="1-简述面向对象和面向过程的区别和联系？"><a href="#1-简述面向对象和面向过程的区别和联系？" class="headerlink" title="1.简述面向对象和面向过程的区别和联系？"></a>1.简述面向对象和面向过程的区别和联系？</h1><p>面向过程是结构化程序设计方法，主张按功能将软件系统逐步细分，其主要原则可概括为<strong>自顶向下、逐步求精、模块化</strong>等；在结构化程序设计中，每个功能都负责对数据进行一次处理，每个功能都接受一些数据，处理完后输出一些数   据，这种处理方式也称为面向数据流的处理方式。  </p>
+<p>对比之下面向对象是一种更高级的程序设计方法，它从现实世界出发来构造软件系统，<strong>强调以对象为中心来思考</strong>，它的编程方式更接近人类思维习惯，使程序员更容易理解。  </p>
+<p>这两种不同的设计思想使得在运用<strong>这两种思想编程时粒度相差很大</strong>：面向对象的程序单位是类，而面向过程的程序单位是函数，使得它比面向对象过程更复杂。  </p>
+<p>而两者的联系又体现在<strong>都是在对数据进行处理</strong>，只是面向对象站在更高的角度上，将数据和函数打包，在对象的层次上去处理。</p>
+<h1 id="2-对象和类的关系是？"><a href="#2-对象和类的关系是？" class="headerlink" title="2.对象和类的关系是？"></a>2.对象和类的关系是？</h1><p>类是一种自定义的数据类型，用于描述某一类对象的共同特征，而对象则是类的实例化，是一种具体存在。<br><a id="more"></a></p>
+<h1 id="3-堆和栈的特点是什么？分别存放什么内容？"><a href="#3-堆和栈的特点是什么？分别存放什么内容？" class="headerlink" title="3.堆和栈的特点是什么？分别存放什么内容？"></a>3.堆和栈的特点是什么？分别存放什么内容？</h1><p>栈内存的特点是由程序控制分配和回收，如执行一个方法时，在这个方法内定义的变量会随着方法的执行而创建，随着方法的结束而释放。而对于堆内存，往往用于存放教大而复杂的数据，需要耗费较多系统资源，所以特点是不会随着方法的结束而销毁。  </p>
+<p>对堆内存的停止使用是需要专门执行释放操作的。以C语言来说，需要用户手动去malloc()或者calloc()，在不再使用后需要调用free()来释放。在Java程序中也是如此，只是Java中有自己的回收机制，会自动调用回收功能来清理没有引用的数据。当然，也可以自己调用函数建议程序调用垃圾回功能，但只是起到建议的作用，程序可能不会立即调用。</p>
+<h1 id="4-局部变量使用之前，需要手动初始化吗？"><a href="#4-局部变量使用之前，需要手动初始化吗？" class="headerlink" title="4.局部变量使用之前，需要手动初始化吗？"></a>4.局部变量使用之前，需要手动初始化吗？</h1><p>局部变量在使用之前，需要手动初始化。  </p>
+<p>在解释这个问题前，我们先来讲局部变量。<br>局部变量包括方法的形参，方法体内定义的变量和代码块中的变量。<strong>这类变量的存在时间最长不超过方法或代码块的执行时间，会随着方法执行结束或者代码块完成而销毁</strong>，显然，它是保存在栈内存中的（如果是引用类型的变量，那么它存放的是地址）。<br>局部变量的这些特点表明它的运行机制是：<strong>定义局部变量后，系统并未为这个变量分配内存空间，直到等到程序为这个变量赋初始值时，系统才会为局部变量分配内存，并将初始值保存在这块内存中。</strong><br>下面用一段小代码来做例子方便理解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class Variable &#123;</div><div class="line">	public static void main(String[] args)&#123;</div><div class="line">		//定义一个局部变量a</div><div class="line">		int a;</div><div class="line">		//下面代码块将出现错误，因为a变量还未初始化</div><div class="line">		//System.out.println(&quot;方法局部变量a的值：&quot; + a);</div><div class="line">		//为a变量赋初始值，也就是进行初始化</div><div class="line">		a = 5;</div><div class="line">		System.out.println(&quot;方法局部变量a的值：&quot; + a);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>另外，值得说的一点是，在Java中没有静态局部变量的概念，以前学过C的我们知道在C语言中可以定义静态局部变量，但是为什么在Java中不能定义呢……我也不知道啊！！！在搞清楚C和Java对static的加载过程后，我觉得可能是为了更规范用完的就销毁的规则把……毕竟，静态局部变量能做的事，成员变量也可以做到……（对这个问题有自己的想法可以找我探讨啊…………）  </p>
+<h1 id="5-Java-中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？"><a href="#5-Java-中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？" class="headerlink" title="5.Java 中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？"></a>5.Java 中如果不手动指定成员变量的值，系统会自动初始化，那么初始化的规则是？</h1><p>不管程序有没有显示的初始化，Java  虚拟机都会先自动给它初始化为默认值。</p>
+<ul>
+<li><p>整数类型（byte、short、int、long）的基本类型变量的默认值为0。</p>
+</li>
+<li><p>单精度浮点型（float）的基本类型变量的默认值为0.0f。</p>
+</li>
+<li><p>双精度浮点型（double）的基本类型变量的默认值为0.0d。</p>
+</li>
+<li><p>字符型（char）的基本类型变量的默认为 “/u0000”。</p>
+</li>
+<li><p>布尔性的基本类型变量的默认值为 false。</p>
+</li>
+<li><p>引用类型的变量是默认值为 null。</p>
+</li>
+<li>数组引用类型的变量的默认值为 null。当数组变量的实例后，如果没有没有显示的为每个元素赋值，Java 就会把该数组的所有元素初始化为其相应类型的默认值。</li>
+</ul>
+<p>数组例子：</p>
+<ul>
+<li><p>int[] a;   //声明,没有初始化默认值是null</p>
+</li>
+<li><p>int[] a=new int[5];   //初始化为默认值,int型为0  </p>
+</li>
+</ul>
+<hr>
+<h1 id="6-构造方法如何被调用？"><a href="#6-构造方法如何被调用？" class="headerlink" title="6.构造方法如何被调用？"></a>6.构造方法如何被调用？</h1><p>通过 <strong>new</strong> 关键字可以调用某个类的构造器。如：<br>    Person p =new Person();<br>如果这个类的构造器重载了，则调用规则跟方法重载一样，如：<br>    Person p = new Person(int age = 20);<br>会调用Person类的带一个int类型参数的构造器<br>而如果要创建的类继承了某个类，则可以通过 <strong>super</strong>关键字调用父类的构造器，下面代码演示了这样的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Person &#123;</div><div class="line">    Integer gender;</div><div class="line">    Person(Integer gender) &#123;</div><div class="line">        this.gender = gender;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Father extends Person &#123;</div><div class="line">    String name;</div><div class="line">    Father() &#123;</div><div class="line">        super(1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="7-系统一定会给我们添加无参数的构造方法吗-请详细解释。"><a href="#7-系统一定会给我们添加无参数的构造方法吗-请详细解释。" class="headerlink" title="7.系统一定会给我们添加无参数的构造方法吗?请详细解释。"></a>7.系统一定会给我们添加无参数的构造方法吗?请详细解释。</h1><p>不会  </p>
+<ul>
+<li>定义一个类时，不显式指定构造器，系统会为我们提供一个无参数的构造器  </li>
+<li>定义一个类时，显示指定了构造器，不同不会为我们提供无参数的构造器，即使我们指定的构造器中没有无参构造器<br>但我们有时不需要构造器或者说不需要将构造器暴露出来应该怎么做呢？答案是指定一个private修饰的构造器，这种设计模式叫<strong>Singleton</strong>。<br>下面演示了这样一个例子：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">class Singleton</div><div class="line">&#123;</div><div class="line">	// 使用一个类变量来缓存曾经创建的实例</div><div class="line">	private static Singleton instance;</div><div class="line">	// 将构造器使用private修饰，隐藏该构造器</div><div class="line">	private Singleton()&#123;&#125;</div><div class="line">	// 提供一个静态方法，用于返回Singleton实例</div><div class="line">	// 该方法可以加入自定义的控制，保证只产生一个Singleton对象</div><div class="line">	public static Singleton getInstance()</div><div class="line">	&#123;</div><div class="line">		// 如果instance为null，表明还不曾创建Singleton对象</div><div class="line">		// 如果instance不为null，则表明已经创建了Singleton对象，</div><div class="line">		// 将不会重新创建新的实例</div><div class="line">		if (instance == null)</div><div class="line">		&#123;</div><div class="line">			// 创建一个Singleton对象，并将其缓存起来</div><div class="line">			instance = new Singleton();</div><div class="line">		&#125;</div><div class="line">		return instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">public class SingletonTest</div><div class="line">&#123;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		// 创建Singleton对象不能通过构造器，</div><div class="line">		// 只能通过getInstance方法来得到实例</div><div class="line">		Singleton s1 = Singleton.getInstance();</div><div class="line">		Singleton s2 = Singleton.getInstance();</div><div class="line">		System.out.println(s1 == s2); // 将输出true</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="8-构造方法能不能重载？"><a href="#8-构造方法能不能重载？" class="headerlink" title="8.构造方法能不能重载？"></a>8.构造方法能不能重载？</h1><p>可以  </p>
+<h1 id="9-this-在普通方法中，指的是哪个对象？在构造方法中，指的是？"><a href="#9-this-在普通方法中，指的是哪个对象？在构造方法中，指的是？" class="headerlink" title="9.this 在普通方法中，指的是哪个对象？在构造方法中，指的是？"></a>9.this 在普通方法中，指的是哪个对象？在构造方法中，指的是？</h1><p>this 在普通方法中，指的是调用该方法的对象，在构造方法中，指的是调用该构造方法的对象。  </p>
+<p>对普通方法的理解可以参考下面代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Test &#123;</div><div class="line">    public Test() &#123;</div><div class="line">        System.out.println(this.toString());</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Test obj = new Test();</div><div class="line">        System.out.println(obj.toString());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对构造器的this的理解可以参考<strong>java编程思想</strong>里的一段文字：</p>
+<blockquote>
+<p>在这里有必要总结一下对象的创建过程。请考虑一个名为Dog 的类：<br>(1) 类型为Dog 的一个对象首次创建时，或者Dog 类的static 方法／static 字段首次访问时，Java 解释器<br>必须找到Dog.class（在事先设好的类路径里搜索）。<br>(2) 找到Dog.class 后（它会创建一个Class 对象，这将在后面学到），它的所有static 初始化模块都会运<br>行。因此，static 初始化仅发生一次——在Class 对象首次载入的时候。<br>(3) 创建一个new Dog()时，Dog 对象的构建进程首先会在内存堆（Heap）里为一个Dog 对象分配足够多的存<br>储空间。<br>(4) 这种存储空间会清为零，将Dog 中的所有基本类型设为它们的默认值（零用于数字，以及boolean 和<br>char 的等价设定）。<br>(5) 进行字段定义时发生的所有初始化都会执行。<br>(6) 执行构建器。</p>
+</blockquote>
+<h1 id="10-静态初始化块和-main-方法哪个先被执行？"><a href="#10-静态初始化块和-main-方法哪个先被执行？" class="headerlink" title="10.静态初始化块和 main 方法哪个先被执行？"></a>10.静态初始化块和 main 方法哪个先被执行？</h1><p>这里讨论的是在同一个类中的main方法和静态初始化块中情况<br>答案是静态初始化块。因为在JVM加载类时便会执行静态初始化块了，而main方法是在类的实例中运行的，自然在静态初始化块后执行。  </p>
+<hr>
+<h1 id="11-一个构造方法调用另一个构造方法怎么调用？this-这样的调用方式必须位于第一句吗？"><a href="#11-一个构造方法调用另一个构造方法怎么调用？this-这样的调用方式必须位于第一句吗？" class="headerlink" title="11.一个构造方法调用另一个构造方法怎么调用？this() 这样的调用方式必须位于第一句吗？"></a>11.一个构造方法调用另一个构造方法怎么调用？this() 这样的调用方式必须位于第一句吗？</h1><p>可以通过this()来相互调用，this()这样的调用方式必须在第一位。下面通过代码来演示  </p>
+<h3 id="this-在第一位"><a href="#this-在第一位" class="headerlink" title="this()在第一位"></a>this()在第一位</h3><p><img src="/2017/06/05/假前小充电-面向对象（一）/1.png" alt=""></p>
+<h3 id="this-调用其他构造器"><a href="#this-调用其他构造器" class="headerlink" title="this()调用其他构造器"></a>this()调用其他构造器</h3><p><img src="/2017/06/05/假前小充电-面向对象（一）/2.png" alt=""></p>
+<h3 id="另外讲一下this关键字和this-构造器的区别"><a href="#另外讲一下this关键字和this-构造器的区别" class="headerlink" title="另外讲一下this关键字和this()构造器的区别"></a>另外讲一下this关键字和this()构造器的区别</h3><p> this关键字指的当前对象，this()指的是当前类的构造器。<br>所有构造器（<em>this()和super()</em>)都必须放在第一句，所以当我们需要需要重复多次调用构造器时，我们应该转用this关键字。如<br><img src="/2017/06/05/假前小充电-面向对象（一）/3.png" alt=""><br> 应修改为<br><img src="/2017/06/05/假前小充电-面向对象（一）/4.png" alt=""></p>
+<h1 id="12-package-的两个作用是什么？"><a href="#12-package-的两个作用是什么？" class="headerlink" title="12.package 的两个作用是什么？"></a>12.package 的两个作用是什么？</h1><ul>
+<li>1、把功能相似或相关的类或接口组织在同一个包中，<strong>方便类的查找和使用。</strong>如同文件夹一样，包也采用了树形目录的存储方式。同一个包中的类名字是不同的，不同的包中的类的名字是可以相同的，当同时调用两个不同包中相同类名的类时，应该加上包名加以区别。因此，包可以<strong>避免名字冲突。</strong></li>
+<li>2、包也<strong>限定了访问权限</strong>，拥有包访问权限的类才能访问某个包中的类。</li>
+</ul>
+<h1 id="13-import-statis-叫做静态导入，那么其作用是什么？"><a href="#13-import-statis-叫做静态导入，那么其作用是什么？" class="headerlink" title="13.import statis 叫做静态导入，那么其作用是什么？"></a>13.import statis 叫做静态导入，那么其作用是什么？</h1><p>用于导入静态成员变量<br>用一句话来归纳import 和 import static 的作用：使用import可以省略写包名；而使用import static 可以连类名都省略<br>下面写一个例子来说明import static<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">import static java.lang.System.*;</div><div class="line">import static java.lang.Math.*;</div><div class="line">public class StaticImportTest</div><div class="line">&#123;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		// out是java.lang.System类的静态成员变量，代表标准输出</div><div class="line">		// PI是java.lang.Math类的静态成员变量，表示π常量</div><div class="line">		out.println(PI);</div><div class="line">		// 直接调用Math类的sqrt静态方法</div><div class="line">		out.println(sqrt(256));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="14-请详细快速的说明-private、default、protected、public-的区别。"><a href="#14-请详细快速的说明-private、default、protected、public-的区别。" class="headerlink" title="14.请详细快速的说明 private、default、protected、public 的区别。"></a>14.请详细快速的说明 private、default、protected、public 的区别。</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">.</th>
+<th style="text-align:center">private</th>
+<th style="text-align:center">default</th>
+<th style="text-align:center">protected</th>
+<th style="text-align:center">public</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">同一个类中</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:left">同一个包中</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:left">子类中</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:left">全局范围内</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">√</td>
+</tr>
+</tbody>
+</table>
+<h1 id="15-javabean-就是只包含属性和相关-getter-setter-方法，不包含业务逻辑处理的bean，这种说法对吗？"><a href="#15-javabean-就是只包含属性和相关-getter-setter-方法，不包含业务逻辑处理的bean，这种说法对吗？" class="headerlink" title="15.javabean 就是只包含属性和相关 getter/setter 方法，不包含业务逻辑处理的bean，这种说法对吗？"></a>15.javabean 就是只包含属性和相关 getter/setter 方法，不包含业务逻辑处理的bean，这种说法对吗？</h1><p>不对。<br>按照Javabean的规范，如果一个Java类的每个实例变量都使用private修饰，并为每个实例变量提供了public修饰的setter和getter方法，那么这个类就是一个符合JavaBean规范的类。<br>在这个规范中，明显我们可以定义一些方法来处理某个业务。</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[假前小充电--Java 基础知识]]></title>
+      <url>/2017/06/04/%E5%81%87%E5%89%8D%E5%B0%8F%E5%85%85%E7%94%B5-Java-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+      <content type="html"><![CDATA[<ul>
+<li><h2 id="Java-的跨平台是通过什么实现的？"><a href="#Java-的跨平台是通过什么实现的？" class="headerlink" title="Java 的跨平台是通过什么实现的？"></a>Java 的跨平台是通过什么实现的？</h2><p>作者：苏月虹<br>链接：<a href="https://www.zhihu.com/question/30753144/answer/53095878" target="_blank" rel="external">https://www.zhihu.com/question/30753144/answer/53095878</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br>那么，跨平台是怎样实现的呢？这就要谈及Java虚拟机（Java Virtual Machine，简称 JVM）。<br><br>JVM也是一个软件，不同的平台有不同的版本。我们编写的Java源码，编译后会生成一种  <strong>.class 文件，称为字节码文件 </strong>。Java虚拟机就是负责将字节码文件翻译成特定平台下的机器码然后运行。也就是说，只要在不同平台上安装对应的JVM，就可以运行字节码文件，运行我们编写的Java程序。<br><br>而这个过程中，我们编写的Java程序没有做任何改变，仅仅是通过JVM这一”中间层“，就能在不同平台上运行，真正实现了”一次编译，到处运行“的目的。<br><br>JVM是一个”桥梁“，是一个”中间件“，是实现跨平台的关键，Java代码首先被编译成字节码文件，再由JVM将字节码文件翻译成机器语言，从而达到运行Java程序的目的。<br></p>
+<a id="more"></a>
+<p><strong>注意：编译的结果不是生成机器码，而是生成字节码，字节码不能直接运行，必须通过JVM翻译成机器码才能运行。不同平台下编译生成的字节码是一样的，但是由JVM翻译成的机器码却不一样。</strong><br><br>所以，运行Java程序必须有JVM的支持，因为编译的结果不是机器码，必须要经过JVM的再次翻译才能执行。即使你将Java程序打包成可执行文件（例如 .exe），仍然需要JVM的支持。<br><br><strong>注意：跨平台的是Java程序，不是JVM。JVM是用C/C++开发的，是编译后的机器码，不能跨平台，不同平台下需要安装不同版本的JVM。</strong><br><br>总结：<strong>.java(文本文件)–编译器–&gt;.class(字节码文件)–JVM–&gt;运行</strong><br>引用<a href="http://baike.baidu.com/link?url=WjxhHQkRE8zUp2UeRhPhIaMcwDUqi1J4tz2dpCeBS0FROmhfgAUXJUbzqdoEQ9yKvLvPe6KKImp24LV03JLKhnFpeVqP-xPIsTQQX1yf_Gy" target="_blank" rel="external">百度百科</a>：<br></p>
+<blockquote>
+<p>当编译和连接一个C++程序时，所获得的可执行二进制文件只能在指定的硬件平台和操作系统上运行，因为这个二进制文件包含了对目标处理器的机器语言。而Java编译器把Java源文件的指令翻译成字节码，这种字节码就是Java虚拟机的“机器语言”。<br>与普通程序不同的是，Java程序（class文件）并不是本地的可执行程序。当运行Java程序时，首先运行JVM（Java虚拟机），然后再把Java class加载到JVM里头运行.</p>
+</blockquote>
+</li>
+<li><h2 id="JDK、JRE、JVM-的全称是什么？"><a href="#JDK、JRE、JVM-的全称是什么？" class="headerlink" title="JDK、JRE、JVM 的全称是什么？"></a>JDK、JRE、JVM 的全称是什么？</h2><p>引用自百度百科<br><a href="http://baike.baidu.com/item/jdk/1011" target="_blank" rel="external"><strong>JDK</strong></a> : JDK(Java Development Kit) 是 Java 语言的软件开发工具包<br>   <img src="/2017/06/04/假前小充电-Java-基础知识/7af40ad162d9f2d36880ccf1a3ec8a136327cc1f.jpg" alt="jdk结构图"><br><a href="http://baike.baidu.com/item/JRE" target="_blank" rel="external"><strong>JRE</strong></a> : JRE（Java Runtime Environment，Java运行环境），运行JAVA程序所必须的环境的集合，包含JVM标准实现及Java核心类库。<br><a href="http://baike.baidu.com/item/JVM" target="_blank" rel="external"><strong>JVM</strong></a> : JVM是Java Virtual Machine（Java虚拟机）的缩写，JVM是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java语言的一个非常重要的特点就是与平台的无关性。而使用Java虚拟机是实现这一特点的关键。一般的高级语言如果要在不同的平台上运行，至少需要编译成不同的目标代码。而引入Java语言虚拟机后，Java语言在不同平台上运行时不需要重新编译。Java语言使用Java虚拟机屏蔽了与具体平台相关的信息，使得Java语言编译程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。Java虚拟机在执行字节码时，把字节码解释成具体平台上的机器指令执行。这就是Java的能够“一次编译，到处运行”的原因。</p>
+</li>
+<li><h2 id="public-class-的类名必须跟文件名保持一致吗？"><a href="#public-class-的类名必须跟文件名保持一致吗？" class="headerlink" title="public class 的类名必须跟文件名保持一致吗？"></a>public class 的类名必须跟文件名保持一致吗？</h2><p>引用自<a href="http://blog.csdn.net/shaoxiaoning/article/details/40424087" target="_blank" rel="external">shaoxiaoning的博客</a></p>
+<blockquote>
+<p>1.Java保存的文件名必须与类名一致；<br>2.如果文件中只有一个类，文件名必须与类名一致；<br>3.一个Java文件中只能有一个public类；<br>4.如果文件中不止一个类，文件名必须与public类名一致；<br>5.如果文件中不止一个类，而且没有public类，文件名可与任一类名一致。</p>
+</blockquote>
+</li>
+</ul>
+<p>个人体会：初学java时参照书本打了一些带有多个类的java文件，但是实际后来在写小项目时几乎没有写过多个类在同一个文件下的.java文件。（唯一一次写过内部类是在之前的<a href="https://github.com/wean2016/StudentScoresManageSystem" target="_blank" rel="external">学生成绩管理系统</a>的早期版本里计算绩点时写了个计算绩点的内部类，且在新版本里已经提炼到外部作为一个工具类了）</p>
+<ul>
+<li><h2 id="一个-Java-源文件可以写多个-Class-吗？编译后会不会生成多个-Class-文件？"><a href="#一个-Java-源文件可以写多个-Class-吗？编译后会不会生成多个-Class-文件？" class="headerlink" title="一个 Java 源文件可以写多个 Class 吗？编译后会不会生成多个 Class 文件？"></a>一个 Java 源文件可以写多个 Class 吗？编译后会不会生成多个 Class 文件？</h2><img src="/2017/06/04/假前小充电-Java-基础知识/654537d6-dedf-4a5d-a394-295473f7c3a9.jpg" alt=""><br>我自己手写了一个包含多个类的案例测试了下，如图可见:<br>一个java源文件可以写多个Class，编译后会生成多个Class文件<br><br>另外下面写一段我看过《疯狂Java讲义》的关于<strong>内部类</strong>的学习笔记<br><h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3>定义在其他类内部的类被成为内部类（有的地方也叫嵌套类），包含内部类的类也被成为外部类（有的地方也叫宿主类）。内部类主要有以下作用。</li>
+<li>内部类提供了更好的封装，可以把内部类隐藏在外部类之内，不允许同一个包中的其他类访问该类。</li>
+<li><strong>内部类成员可以直接访问外部类的私有数据，因为内部类被当成其外部类成员，同一个类的成员之间的互相访问。但外部类不能访问内部类的实现细节，例如内部类的成员变量。</strong></li>
+<li><strong>匿名内部类适合用于创建那些仅需要使用一次的类。</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">public class Cow &#123;</div><div class="line">    private double weight;</div><div class="line">    // 外部类的两个重载的构造器</div><div class="line">    public Cow() &#123;</div><div class="line">    &#125;</div><div class="line">    public Cow(double weight) &#123;</div><div class="line">        this.weight = weight;</div><div class="line">    &#125;</div><div class="line">    // 定义一个非静态内部类</div><div class="line">    private class CowLeg &#123;</div><div class="line">        // 非静态内部类的两个实例变量</div><div class="line">        private double length;</div><div class="line">        private String color;</div><div class="line">        // 非静态内部类的两个重载的构造器</div><div class="line">        public CowLeg() &#123;</div><div class="line">        &#125;</div><div class="line">        public CowLeg(double length, String color) &#123;</div><div class="line">            this.length = length;</div><div class="line">            this.color = color;</div><div class="line">        &#125;</div><div class="line">        // 下面省略length、color的setter和getter方法</div><div class="line">        public void setLength(double length) &#123;</div><div class="line">            this.length = length;</div><div class="line">        &#125;</div><div class="line">        public double getLength() &#123;</div><div class="line">            return this.length;</div><div class="line">        &#125;</div><div class="line">        public void setColor(String color) &#123;</div><div class="line">            this.color = color;</div><div class="line">        &#125;</div><div class="line">        public String getColor() &#123;</div><div class="line">            return this.color;</div><div class="line">        &#125;</div><div class="line">        // 非静态内部类的实例方法</div><div class="line">        public void info() &#123;</div><div class="line">            System.out.println(&quot;当前牛腿颜色是：&quot; + color + &quot;, 高：&quot; + length);</div><div class="line">            // 直接访问外部类的private修饰的成员变量</div><div class="line">            System.out.println(&quot;本牛腿所在奶牛重：&quot; + weight); // ①</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    public void test() &#123;</div><div class="line">        CowLeg cl = new CowLeg(1.12, &quot;黑白相间&quot;);</div><div class="line">        cl.info();</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Cow cow = new Cow(378.9);</div><div class="line">        cow.test();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面引用了一段关于<strong>非静态内部类</strong>的代码，编译后结果如下<br><img src="/2017/06/04/假前小充电-Java-基础知识/048f4060-7816-49f2-80ec-4b490e0f9c5d.png" alt=""><br> 可见成员内部类（包括静态内部类、非静态内部类）的class文件总是这种形式： OuterClass$InnerClass.class<br>前面提到过，非静态内部类可以直接访问外部类的private成员，原因是在非静态内部类对象里，保存了一个它所寄生的外部类的引用，下图显示了上面程序运行时的内存示意图：<br><br><br><img src="/2017/06/04/假前小充电-Java-基础知识/fbe81f37-2d12-4131-8412-70020b87ae9c.jpg" alt=""><br> <strong>静态内部类</strong><br>如果使用static来修饰一个内部类，则这个内部类就属于外部类本身，而不属于外部类的某个对象。<br>根据静态成员不能访问非静态成员的规则，静态内部类不能访问外部类的实例成员，只能访问外部类的类成员。<br>静态内部类是外部类的一个静态成员，因此外部类的所有方法，所有初始化块中可以使用静态内部类来定义变量，创建对象等。<br>外部类依然不能直接访问静态内部类的成员，但是可以用静态内部类的类名作为调用者来访问静态内部类的类成员，也可以使用静态内部类对象作为调用者来访问静态内部类的实例成员。<br><br><strong>匿名内部类</strong><br>定义匿名内部类的格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">new 实现接口() | 父类构造器(实参列表) &#123;</div><div class="line">    //匿名内部类的类体部分</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可见，匿名内部类必须实现一个接口，或者继承一个父类，但<strong>最多只能继承一个父类或实现一个接口</strong>。<br>实现接口的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">interface Product</div><div class="line">&#123;</div><div class="line">	public double getPrice();</div><div class="line">	public String getName();</div><div class="line">&#125;</div><div class="line">public class AnonymousTest</div><div class="line">&#123;</div><div class="line">	public void test(Product p)</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;购买了一个&quot; + p.getName()</div><div class="line">			+ &quot;，花掉了&quot; + p.getPrice());</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		AnonymousTest ta = new AnonymousTest();</div><div class="line">		// 调用test()方法时，需要传入一个Product参数，</div><div class="line">		// 此处传入其匿名实现类的实例</div><div class="line">		ta.test(new Product()</div><div class="line">		&#123;</div><div class="line">			public double getPrice()</div><div class="line">			&#123;</div><div class="line">				return 567.8;</div><div class="line">			&#125;</div><div class="line">			public String getName()</div><div class="line">			&#123;</div><div class="line">				return &quot;AGP显卡&quot;;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继承父类的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">abstract class Device</div><div class="line">&#123;</div><div class="line">	private String name;</div><div class="line">	public abstract double getPrice();</div><div class="line">	public Device()&#123;&#125;</div><div class="line">	public Device(String name)</div><div class="line">	&#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	// 此处省略了name的setter和getter方法</div><div class="line">	public void setName(String name)</div><div class="line">	&#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	public String getName()</div><div class="line">	&#123;</div><div class="line">		return this.name;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">public class AnonymousInner</div><div class="line">&#123;</div><div class="line">	public void test(Device d)</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;购买了一个&quot; + d.getName()</div><div class="line">			+ &quot;，花掉了&quot; + d.getPrice());</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		AnonymousInner ai = new AnonymousInner();</div><div class="line">		// 调用有参数的构造器创建Device匿名实现类的对象</div><div class="line">		ai.test(new Device(&quot;电子示波器&quot;)</div><div class="line">		&#123;</div><div class="line">			public double getPrice()</div><div class="line">			&#123;</div><div class="line">				return 67.8;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		// 调用无参数的构造器创建Device匿名实现类的对象</div><div class="line">		Device d = new Device()</div><div class="line">		&#123;</div><div class="line">			// 初始化块</div><div class="line">			&#123;</div><div class="line">				System.out.println(&quot;匿名内部类的初始化块...&quot;);</div><div class="line">			&#125;</div><div class="line">			// 实现抽象方法</div><div class="line">			public double getPrice()</div><div class="line">			&#123;</div><div class="line">				return 56.2;</div><div class="line">			&#125;</div><div class="line">			// 重写父类的实例方法</div><div class="line">			public String getName()</div><div class="line">			&#123;</div><div class="line">				return &quot;键盘&quot;;</div><div class="line">			&#125;</div><div class="line">		&#125;;</div><div class="line">		ai.test(d);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><br><br>在Java 8之前，Java要求被局部内部类、匿名内部类访问的局部变量必须使用final修饰，从Java 8开始这个限制被取消，Java 8更加智能：如果局部变量被匿名内部类访问，那么该局部变量相当于自己使用了final修饰。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">interface A</div><div class="line">&#123;</div><div class="line">	void test();</div><div class="line">&#125;</div><div class="line">public class ATest</div><div class="line">&#123;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		int age = 8;     // ①</div><div class="line">		// 下面代码将会导致编译错误</div><div class="line">		// 由于age局部变量被匿名内部类访问了，因此age相当于被final修饰了</div><div class="line">		age = 2;</div><div class="line">		A a = new A()</div><div class="line">		&#123;</div><div class="line">			public void test()</div><div class="line">			&#123;</div><div class="line">				// 在Java 8以前下面语句将提示错误：age必须使用final修饰</div><div class="line">				// 从Java 8开始，匿名内部类、局部内部类允许访问非final的局部变量</div><div class="line">				System.out.println(age);</div><div class="line">			&#125;</div><div class="line">		&#125;;</div><div class="line">		a.test();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><h2 id="编程时，为什么需要注释？Java-中注释的类型有哪些？"><a href="#编程时，为什么需要注释？Java-中注释的类型有哪些？" class="headerlink" title="编程时，为什么需要注释？Java 中注释的类型有哪些？"></a>编程时，为什么需要注释？Java 中注释的类型有哪些？</h2>对于为什么需要注释和什么样的注释才是好注释，可以参见<a href="http://blog.csdn.net/u011330638/article/details/52503048" target="_blank" rel="external">《代码整洁之道》第4章-注释</a><br><br>注释类型分为/*注释块*/和//行注释</li>
+</ul>
+]]></content>
+      
+        
+    </entry>
+    
+  
+  
+</search>

@@ -1,0 +1,761 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Java 的跨平台是通过什么实现的？作者：苏月虹链接：https://www.zhihu.com/question/30753144/answer/53095878来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。那么，跨平台是怎样实现的呢？这就要谈及Java虚拟机（Java Virtual Machine，简称 JVM）。JVM也是一个软件，不同的平台有不同的版本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="假前小充电--Java 基础知识">
+<meta property="og:url" content="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/index.html">
+<meta property="og:site_name" content="wean&#39;s blog">
+<meta property="og:description" content="Java 的跨平台是通过什么实现的？作者：苏月虹链接：https://www.zhihu.com/question/30753144/answer/53095878来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。那么，跨平台是怎样实现的呢？这就要谈及Java虚拟机（Java Virtual Machine，简称 JVM）。JVM也是一个软件，不同的平台有不同的版本。">
+<meta property="og:image" content="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/7af40ad162d9f2d36880ccf1a3ec8a136327cc1f.jpg">
+<meta property="og:image" content="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/654537d6-dedf-4a5d-a394-295473f7c3a9.jpg">
+<meta property="og:image" content="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/048f4060-7816-49f2-80ec-4b490e0f9c5d.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/fbe81f37-2d12-4131-8412-70020b87ae9c.jpg">
+<meta property="og:updated_time" content="2017-07-09T04:54:16.359Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="假前小充电--Java 基础知识">
+<meta name="twitter:description" content="Java 的跨平台是通过什么实现的？作者：苏月虹链接：https://www.zhihu.com/question/30753144/answer/53095878来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。那么，跨平台是怎样实现的呢？这就要谈及Java虚拟机（Java Virtual Machine，简称 JVM）。JVM也是一个软件，不同的平台有不同的版本。">
+<meta name="twitter:image" content="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/7af40ad162d9f2d36880ccf1a3ec8a136327cc1f.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/"/>
+
+
+
+
+
+  <title>假前小充电--Java 基础知识 | wean's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wean's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://wean2016.cn/2017/06/04/假前小充电-Java-基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wean">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wean's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">假前小充电--Java 基础知识</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T00:32:09+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><h2 id="Java-的跨平台是通过什么实现的？"><a href="#Java-的跨平台是通过什么实现的？" class="headerlink" title="Java 的跨平台是通过什么实现的？"></a>Java 的跨平台是通过什么实现的？</h2><p>作者：苏月虹<br>链接：<a href="https://www.zhihu.com/question/30753144/answer/53095878" target="_blank" rel="external">https://www.zhihu.com/question/30753144/answer/53095878</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br>那么，跨平台是怎样实现的呢？这就要谈及Java虚拟机（Java Virtual Machine，简称 JVM）。<br><br>JVM也是一个软件，不同的平台有不同的版本。我们编写的Java源码，编译后会生成一种  <strong>.class 文件，称为字节码文件 </strong>。Java虚拟机就是负责将字节码文件翻译成特定平台下的机器码然后运行。也就是说，只要在不同平台上安装对应的JVM，就可以运行字节码文件，运行我们编写的Java程序。<br><br>而这个过程中，我们编写的Java程序没有做任何改变，仅仅是通过JVM这一”中间层“，就能在不同平台上运行，真正实现了”一次编译，到处运行“的目的。<br><br>JVM是一个”桥梁“，是一个”中间件“，是实现跨平台的关键，Java代码首先被编译成字节码文件，再由JVM将字节码文件翻译成机器语言，从而达到运行Java程序的目的。<br></p>
+<a id="more"></a>
+<p><strong>注意：编译的结果不是生成机器码，而是生成字节码，字节码不能直接运行，必须通过JVM翻译成机器码才能运行。不同平台下编译生成的字节码是一样的，但是由JVM翻译成的机器码却不一样。</strong><br><br>所以，运行Java程序必须有JVM的支持，因为编译的结果不是机器码，必须要经过JVM的再次翻译才能执行。即使你将Java程序打包成可执行文件（例如 .exe），仍然需要JVM的支持。<br><br><strong>注意：跨平台的是Java程序，不是JVM。JVM是用C/C++开发的，是编译后的机器码，不能跨平台，不同平台下需要安装不同版本的JVM。</strong><br><br>总结：<strong>.java(文本文件)–编译器–&gt;.class(字节码文件)–JVM–&gt;运行</strong><br>引用<a href="http://baike.baidu.com/link?url=WjxhHQkRE8zUp2UeRhPhIaMcwDUqi1J4tz2dpCeBS0FROmhfgAUXJUbzqdoEQ9yKvLvPe6KKImp24LV03JLKhnFpeVqP-xPIsTQQX1yf_Gy" target="_blank" rel="external">百度百科</a>：<br></p>
+<blockquote>
+<p>当编译和连接一个C++程序时，所获得的可执行二进制文件只能在指定的硬件平台和操作系统上运行，因为这个二进制文件包含了对目标处理器的机器语言。而Java编译器把Java源文件的指令翻译成字节码，这种字节码就是Java虚拟机的“机器语言”。<br>与普通程序不同的是，Java程序（class文件）并不是本地的可执行程序。当运行Java程序时，首先运行JVM（Java虚拟机），然后再把Java class加载到JVM里头运行.</p>
+</blockquote>
+</li>
+<li><h2 id="JDK、JRE、JVM-的全称是什么？"><a href="#JDK、JRE、JVM-的全称是什么？" class="headerlink" title="JDK、JRE、JVM 的全称是什么？"></a>JDK、JRE、JVM 的全称是什么？</h2><p>引用自百度百科<br><a href="http://baike.baidu.com/item/jdk/1011" target="_blank" rel="external"><strong>JDK</strong></a> : JDK(Java Development Kit) 是 Java 语言的软件开发工具包<br>   <img src="/2017/06/04/假前小充电-Java-基础知识/7af40ad162d9f2d36880ccf1a3ec8a136327cc1f.jpg" alt="jdk结构图"><br><a href="http://baike.baidu.com/item/JRE" target="_blank" rel="external"><strong>JRE</strong></a> : JRE（Java Runtime Environment，Java运行环境），运行JAVA程序所必须的环境的集合，包含JVM标准实现及Java核心类库。<br><a href="http://baike.baidu.com/item/JVM" target="_blank" rel="external"><strong>JVM</strong></a> : JVM是Java Virtual Machine（Java虚拟机）的缩写，JVM是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java语言的一个非常重要的特点就是与平台的无关性。而使用Java虚拟机是实现这一特点的关键。一般的高级语言如果要在不同的平台上运行，至少需要编译成不同的目标代码。而引入Java语言虚拟机后，Java语言在不同平台上运行时不需要重新编译。Java语言使用Java虚拟机屏蔽了与具体平台相关的信息，使得Java语言编译程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。Java虚拟机在执行字节码时，把字节码解释成具体平台上的机器指令执行。这就是Java的能够“一次编译，到处运行”的原因。</p>
+</li>
+<li><h2 id="public-class-的类名必须跟文件名保持一致吗？"><a href="#public-class-的类名必须跟文件名保持一致吗？" class="headerlink" title="public class 的类名必须跟文件名保持一致吗？"></a>public class 的类名必须跟文件名保持一致吗？</h2><p>引用自<a href="http://blog.csdn.net/shaoxiaoning/article/details/40424087" target="_blank" rel="external">shaoxiaoning的博客</a></p>
+<blockquote>
+<p>1.Java保存的文件名必须与类名一致；<br>2.如果文件中只有一个类，文件名必须与类名一致；<br>3.一个Java文件中只能有一个public类；<br>4.如果文件中不止一个类，文件名必须与public类名一致；<br>5.如果文件中不止一个类，而且没有public类，文件名可与任一类名一致。</p>
+</blockquote>
+</li>
+</ul>
+<p>个人体会：初学java时参照书本打了一些带有多个类的java文件，但是实际后来在写小项目时几乎没有写过多个类在同一个文件下的.java文件。（唯一一次写过内部类是在之前的<a href="https://github.com/wean2016/StudentScoresManageSystem" target="_blank" rel="external">学生成绩管理系统</a>的早期版本里计算绩点时写了个计算绩点的内部类，且在新版本里已经提炼到外部作为一个工具类了）</p>
+<ul>
+<li><h2 id="一个-Java-源文件可以写多个-Class-吗？编译后会不会生成多个-Class-文件？"><a href="#一个-Java-源文件可以写多个-Class-吗？编译后会不会生成多个-Class-文件？" class="headerlink" title="一个 Java 源文件可以写多个 Class 吗？编译后会不会生成多个 Class 文件？"></a>一个 Java 源文件可以写多个 Class 吗？编译后会不会生成多个 Class 文件？</h2><img src="/2017/06/04/假前小充电-Java-基础知识/654537d6-dedf-4a5d-a394-295473f7c3a9.jpg" alt=""><br>我自己手写了一个包含多个类的案例测试了下，如图可见:<br>一个java源文件可以写多个Class，编译后会生成多个Class文件<br><br>另外下面写一段我看过《疯狂Java讲义》的关于<strong>内部类</strong>的学习笔记<br><h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3>定义在其他类内部的类被成为内部类（有的地方也叫嵌套类），包含内部类的类也被成为外部类（有的地方也叫宿主类）。内部类主要有以下作用。</li>
+<li>内部类提供了更好的封装，可以把内部类隐藏在外部类之内，不允许同一个包中的其他类访问该类。</li>
+<li><strong>内部类成员可以直接访问外部类的私有数据，因为内部类被当成其外部类成员，同一个类的成员之间的互相访问。但外部类不能访问内部类的实现细节，例如内部类的成员变量。</strong></li>
+<li><strong>匿名内部类适合用于创建那些仅需要使用一次的类。</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">public class Cow &#123;</div><div class="line">    private double weight;</div><div class="line">    // 外部类的两个重载的构造器</div><div class="line">    public Cow() &#123;</div><div class="line">    &#125;</div><div class="line">    public Cow(double weight) &#123;</div><div class="line">        this.weight = weight;</div><div class="line">    &#125;</div><div class="line">    // 定义一个非静态内部类</div><div class="line">    private class CowLeg &#123;</div><div class="line">        // 非静态内部类的两个实例变量</div><div class="line">        private double length;</div><div class="line">        private String color;</div><div class="line">        // 非静态内部类的两个重载的构造器</div><div class="line">        public CowLeg() &#123;</div><div class="line">        &#125;</div><div class="line">        public CowLeg(double length, String color) &#123;</div><div class="line">            this.length = length;</div><div class="line">            this.color = color;</div><div class="line">        &#125;</div><div class="line">        // 下面省略length、color的setter和getter方法</div><div class="line">        public void setLength(double length) &#123;</div><div class="line">            this.length = length;</div><div class="line">        &#125;</div><div class="line">        public double getLength() &#123;</div><div class="line">            return this.length;</div><div class="line">        &#125;</div><div class="line">        public void setColor(String color) &#123;</div><div class="line">            this.color = color;</div><div class="line">        &#125;</div><div class="line">        public String getColor() &#123;</div><div class="line">            return this.color;</div><div class="line">        &#125;</div><div class="line">        // 非静态内部类的实例方法</div><div class="line">        public void info() &#123;</div><div class="line">            System.out.println(&quot;当前牛腿颜色是：&quot; + color + &quot;, 高：&quot; + length);</div><div class="line">            // 直接访问外部类的private修饰的成员变量</div><div class="line">            System.out.println(&quot;本牛腿所在奶牛重：&quot; + weight); // ①</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    public void test() &#123;</div><div class="line">        CowLeg cl = new CowLeg(1.12, &quot;黑白相间&quot;);</div><div class="line">        cl.info();</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Cow cow = new Cow(378.9);</div><div class="line">        cow.test();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面引用了一段关于<strong>非静态内部类</strong>的代码，编译后结果如下<br><img src="/2017/06/04/假前小充电-Java-基础知识/048f4060-7816-49f2-80ec-4b490e0f9c5d.png" alt=""><br> 可见成员内部类（包括静态内部类、非静态内部类）的class文件总是这种形式： OuterClass$InnerClass.class<br>前面提到过，非静态内部类可以直接访问外部类的private成员，原因是在非静态内部类对象里，保存了一个它所寄生的外部类的引用，下图显示了上面程序运行时的内存示意图：<br><br><br><img src="/2017/06/04/假前小充电-Java-基础知识/fbe81f37-2d12-4131-8412-70020b87ae9c.jpg" alt=""><br> <strong>静态内部类</strong><br>如果使用static来修饰一个内部类，则这个内部类就属于外部类本身，而不属于外部类的某个对象。<br>根据静态成员不能访问非静态成员的规则，静态内部类不能访问外部类的实例成员，只能访问外部类的类成员。<br>静态内部类是外部类的一个静态成员，因此外部类的所有方法，所有初始化块中可以使用静态内部类来定义变量，创建对象等。<br>外部类依然不能直接访问静态内部类的成员，但是可以用静态内部类的类名作为调用者来访问静态内部类的类成员，也可以使用静态内部类对象作为调用者来访问静态内部类的实例成员。<br><br><strong>匿名内部类</strong><br>定义匿名内部类的格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">new 实现接口() | 父类构造器(实参列表) &#123;</div><div class="line">    //匿名内部类的类体部分</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可见，匿名内部类必须实现一个接口，或者继承一个父类，但<strong>最多只能继承一个父类或实现一个接口</strong>。<br>实现接口的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">interface Product</div><div class="line">&#123;</div><div class="line">	public double getPrice();</div><div class="line">	public String getName();</div><div class="line">&#125;</div><div class="line">public class AnonymousTest</div><div class="line">&#123;</div><div class="line">	public void test(Product p)</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;购买了一个&quot; + p.getName()</div><div class="line">			+ &quot;，花掉了&quot; + p.getPrice());</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		AnonymousTest ta = new AnonymousTest();</div><div class="line">		// 调用test()方法时，需要传入一个Product参数，</div><div class="line">		// 此处传入其匿名实现类的实例</div><div class="line">		ta.test(new Product()</div><div class="line">		&#123;</div><div class="line">			public double getPrice()</div><div class="line">			&#123;</div><div class="line">				return 567.8;</div><div class="line">			&#125;</div><div class="line">			public String getName()</div><div class="line">			&#123;</div><div class="line">				return &quot;AGP显卡&quot;;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继承父类的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">abstract class Device</div><div class="line">&#123;</div><div class="line">	private String name;</div><div class="line">	public abstract double getPrice();</div><div class="line">	public Device()&#123;&#125;</div><div class="line">	public Device(String name)</div><div class="line">	&#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	// 此处省略了name的setter和getter方法</div><div class="line">	public void setName(String name)</div><div class="line">	&#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	public String getName()</div><div class="line">	&#123;</div><div class="line">		return this.name;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">public class AnonymousInner</div><div class="line">&#123;</div><div class="line">	public void test(Device d)</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;购买了一个&quot; + d.getName()</div><div class="line">			+ &quot;，花掉了&quot; + d.getPrice());</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		AnonymousInner ai = new AnonymousInner();</div><div class="line">		// 调用有参数的构造器创建Device匿名实现类的对象</div><div class="line">		ai.test(new Device(&quot;电子示波器&quot;)</div><div class="line">		&#123;</div><div class="line">			public double getPrice()</div><div class="line">			&#123;</div><div class="line">				return 67.8;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		// 调用无参数的构造器创建Device匿名实现类的对象</div><div class="line">		Device d = new Device()</div><div class="line">		&#123;</div><div class="line">			// 初始化块</div><div class="line">			&#123;</div><div class="line">				System.out.println(&quot;匿名内部类的初始化块...&quot;);</div><div class="line">			&#125;</div><div class="line">			// 实现抽象方法</div><div class="line">			public double getPrice()</div><div class="line">			&#123;</div><div class="line">				return 56.2;</div><div class="line">			&#125;</div><div class="line">			// 重写父类的实例方法</div><div class="line">			public String getName()</div><div class="line">			&#123;</div><div class="line">				return &quot;键盘&quot;;</div><div class="line">			&#125;</div><div class="line">		&#125;;</div><div class="line">		ai.test(d);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><br><br>在Java 8之前，Java要求被局部内部类、匿名内部类访问的局部变量必须使用final修饰，从Java 8开始这个限制被取消，Java 8更加智能：如果局部变量被匿名内部类访问，那么该局部变量相当于自己使用了final修饰。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">interface A</div><div class="line">&#123;</div><div class="line">	void test();</div><div class="line">&#125;</div><div class="line">public class ATest</div><div class="line">&#123;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		int age = 8;     // ①</div><div class="line">		// 下面代码将会导致编译错误</div><div class="line">		// 由于age局部变量被匿名内部类访问了，因此age相当于被final修饰了</div><div class="line">		age = 2;</div><div class="line">		A a = new A()</div><div class="line">		&#123;</div><div class="line">			public void test()</div><div class="line">			&#123;</div><div class="line">				// 在Java 8以前下面语句将提示错误：age必须使用final修饰</div><div class="line">				// 从Java 8开始，匿名内部类、局部内部类允许访问非final的局部变量</div><div class="line">				System.out.println(age);</div><div class="line">			&#125;</div><div class="line">		&#125;;</div><div class="line">		a.test();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><h2 id="编程时，为什么需要注释？Java-中注释的类型有哪些？"><a href="#编程时，为什么需要注释？Java-中注释的类型有哪些？" class="headerlink" title="编程时，为什么需要注释？Java 中注释的类型有哪些？"></a>编程时，为什么需要注释？Java 中注释的类型有哪些？</h2>对于为什么需要注释和什么样的注释才是好注释，可以参见<a href="http://blog.csdn.net/u011330638/article/details/52503048" target="_blank" rel="external">《代码整洁之道》第4章-注释</a><br><br>注释类型分为/*注释块*/和//行注释</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/05/假前小充电-面向对象（一）/" rel="prev" title="假前小充电--面向对象（一）">
+                假前小充电--面向对象（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg"
+               alt="wean" />
+          <p class="site-author-name" itemprop="name">wean</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wean2016" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-的跨平台是通过什么实现的？"><span class="nav-number">1.</span> <span class="nav-text">Java 的跨平台是通过什么实现的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK、JRE、JVM-的全称是什么？"><span class="nav-number">2.</span> <span class="nav-text">JDK、JRE、JVM 的全称是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-class-的类名必须跟文件名保持一致吗？"><span class="nav-number">3.</span> <span class="nav-text">public class 的类名必须跟文件名保持一致吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个-Java-源文件可以写多个-Class-吗？编译后会不会生成多个-Class-文件？"><span class="nav-number">4.</span> <span class="nav-text">一个 Java 源文件可以写多个 Class 吗？编译后会不会生成多个 Class 文件？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内部类"><span class="nav-number">4.1.</span> <span class="nav-text">内部类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程时，为什么需要注释？Java-中注释的类型有哪些？"><span class="nav-number">5.</span> <span class="nav-text">编程时，为什么需要注释？Java 中注释的类型有哪些？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wean</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,777 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="记录了java面向对象的几个问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="假前小充电-面向对象（二）">
+<meta property="og:url" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/index.html">
+<meta property="og:site_name" content="wean&#39;s blog">
+<meta property="og:description" content="记录了java面向对象的几个问题">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/1.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/2.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/3.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/4.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/5.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/6.jpg">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/7.jpg">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/8.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/9.jpg">
+<meta property="og:updated_time" content="2017-07-09T04:54:16.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="假前小充电-面向对象（二）">
+<meta name="twitter:description" content="记录了java面向对象的几个问题">
+<meta name="twitter:image" content="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/"/>
+
+
+
+
+
+  <title>假前小充电-面向对象（二） | wean's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wean's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://wean2016.cn/2017/06/15/假前小充电-面向对象（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wean">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wean's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">假前小充电-面向对象（二）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T23:49:40+08:00">
+                2017-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录了java面向对象的几个问题<br><a id="more"></a></p>
+<hr>
+<h1 id="Java-中如果没有使用-extends-那么默认继承了哪个类？"><a href="#Java-中如果没有使用-extends-那么默认继承了哪个类？" class="headerlink" title="Java 中如果没有使用 extends,那么默认继承了哪个类？"></a>Java 中如果没有使用 extends,那么默认继承了哪个类？</h1><p>默认继承了java.lang.Object类，因此，Object是其他所有类的父类  </p>
+<h1 id="重写（override）指的是什么？"><a href="#重写（override）指的是什么？" class="headerlink" title="重写（override）指的是什么？"></a>重写（override）指的是什么？</h1><p>子类包含与父类同名的方法称为<strong>重写（Override）</strong>，也称为方法重载。下面的代码演示了重载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * 创建一个父类</div><div class="line"> */</div><div class="line">class superClass &#123;</div><div class="line">    //父类中的方法</div><div class="line">    protected String test()&#123;</div><div class="line">        System.out.println(&quot;test的父类方法&quot;);</div><div class="line">        return &quot;success&quot;;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">/*</div><div class="line"> * 编写一个子类</div><div class="line"> */</div><div class="line">public class Test extends superClass&#123;</div><div class="line">    //重写父类的test方法                                        </div><div class="line">    public String test()&#123;</div><div class="line">        System.out.println(&quot;重写父类的方法&quot;);</div><div class="line">        return &quot;success&quot;;</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        new Test().test();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行main方法将会打印出“重写父类方法”<br>值得一提的是，当子类覆盖父类方法后，子类的<strong><em>对象</em></strong>将无法访问父类中被覆盖的方法，但是可以在子类<strong><em>方法</em></strong>中调用父类中被覆盖的方法。<br>如果需要在子类的方法中调用父类中被覆盖的方法，则可以使用super（被覆盖的是实例方法）或者父类类名（被覆盖的是类方法）作为调用者来调用父类中被覆盖的方法。下面代码演示了一个调用父类中被重写的方法的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//在子类方法中通过super显示调用父类被覆盖的实例方法</div><div class="line">public void runMethodInSuperClass()&#123;</div><div class="line">    super.test();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Java-中有没有多继承？"><a href="#Java-中有没有多继承？" class="headerlink" title="Java 中有没有多继承？"></a>Java 中有没有多继承？</h1><p>没有。从复杂性来说，如果一个类S继承了两个类A,B。而A,B都有一个方法M。那么继承时就会需要解决问题–是要继承A的方法M还是继承B的，给开发增加了复杂性。<br>下面的例子做了验证<br><img src="/2017/06/15/假前小充电-面向对象（二）/1.png" alt=""><br>说个题外话，对多继承的实现方法感兴趣的可以了解一下C++如何实现多继承</p>
+<h1 id="叙述一下，有继承结构时，构造函数的调用顺序。"><a href="#叙述一下，有继承结构时，构造函数的调用顺序。" class="headerlink" title="叙述一下，有继承结构时，构造函数的调用顺序。"></a>叙述一下，有继承结构时，构造函数的调用顺序。</h1><p>下面定义三个类，他们之间有严格的继承顺序，通过这种继承关系来说明构造器的调用顺序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">class Creature</div><div class="line">&#123;</div><div class="line">	public Creature()</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;Creature无参数的构造器&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">class Animal extends Creature</div><div class="line">&#123;</div><div class="line">	public Animal(String name)</div><div class="line">	&#123;</div><div class="line">		System.out.println(&quot;Animal带一个参数的构造器，&quot;</div><div class="line">			+ &quot;该动物的name为&quot; + name);</div><div class="line">	&#125;</div><div class="line">	public Animal(String name , int age)</div><div class="line">	&#123;</div><div class="line">		// 使用this调用同一个重载的构造器</div><div class="line">		this(name);</div><div class="line">		System.out.println(&quot;Animal带两个参数的构造器，&quot;</div><div class="line">			+ &quot;其age为&quot; + age);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">public class Wolf extends Animal</div><div class="line">&#123;</div><div class="line">	public Wolf()</div><div class="line">	&#123;</div><div class="line">		// 显式调用父类有两个参数的构造器</div><div class="line">		super(&quot;灰太狼&quot;, 3);</div><div class="line">		System.out.println(&quot;Wolf无参数的构造器&quot;);</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args)</div><div class="line">	&#123;</div><div class="line">		new Wolf();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行该程序将会输出</p>
+<blockquote>
+<p>Creature无参数的构造器<br>Animal带一个参数的构造器，该动物的name为灰太狼<br>Animal带两个参数的构造器，其age为3<br>Wolf无参数的构造器</p>
+</blockquote>
+<p>从上面运行的过程来看，创建任何对象总是从该类的所在继承树最顶层的构造器开始执行，然后依次向下执行，最后才执行本类的构造器。如果某个类通过this调用了同类中重载的构造器，就会依次执行此父类的多个构造器。</p>
+<h1 id="重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。"><a href="#重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。" class="headerlink" title="重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。"></a>重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。</h1><p>可以。方法的覆盖要遵循“两同两小一大”原则，“两同即方法名相同，形参列表相同，”两小“指的是子类方法返回值类型应比父类方法的返回值类型更小或者相等，子类方法声明抛出的异常类型应比父类方法声明抛出的异常类型更小或者相等，”一大“指的是子类方法的访问权限更大或者相等。  </p>
+<p>在用例子说明之前我们先简单讲下<strong>@Override</strong>注解：<br>@Override 就是用来指定方法覆盖的，他可以强制一个子类必须覆盖父类的方法，在编译时，编译器会检查被@Override注解的方法，确保该方法必须重写一个方法（来自父类或者接口），否则将会报错：<br><img src="/2017/06/15/假前小充电-面向对象（二）/2.png" alt=""><br>通过@Override 可以确保我们接下来的例子中是重写了方法而不是定义了一个新方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class SuperClass &#123;</div><div class="line">    //定义一个方法返回Object</div><div class="line">    public Object method()&#123;</div><div class="line">        System.out.println(&quot;父类&quot;);</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">public class Test extends SuperClass &#123;</div><div class="line">    </div><div class="line">    @Override //使用注解确保是重写了方法</div><div class="line">    public Test method()&#123;   //重写父类中的method方法，返回值为Test</div><div class="line">        super.method();</div><div class="line">        System.out.println(&quot;子类&quot;);</div><div class="line"></div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        new Test().method();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该例子可以顺利编译运行说明我们成功重写了父类的method并使用了不同的返回类型  </p>
+<h1 id="多态的三个必要条件是什么？"><a href="#多态的三个必要条件是什么？" class="headerlink" title="多态的三个必要条件是什么？"></a>多态的三个必要条件是什么？</h1><p>Java实现多态有三个必要条件：继承、重写、向上转型。<br>继承：在多态中必须存在有继承关系的子类和父类。<br>重写：子类对父类中某些方法进行重新定义，在调用这些方法时就会调用子类的方法。<br>向上转型：在多态中需要将子类的引用赋给父类对象，只有这样该引用才能够具备技能调用父类的方法和子类的方法。</p>
+<hr>
+<h1 id="Java-的方法绑定采用动态绑定还是静态绑定？"><a href="#Java-的方法绑定采用动态绑定还是静态绑定？" class="headerlink" title="Java 的方法绑定采用动态绑定还是静态绑定？"></a>Java 的方法绑定采用动态绑定还是静态绑定？</h1><p>被final, static, private 修饰的方法和构造方法是静态绑定的，其他方法是动态绑定的  </p>
+<p>在详细介绍这个问题前先说明程序绑定， 静态绑定， 动态绑定的定义。<br><strong>程序绑定</strong>：程序绑定指的是将方法的调用和方法的主体连接起来。举个应用了绑定例子：存在一个父类和子类，子类中重写了父类的某个方法，程序运行时，决定调用的是父类中的方法还是子类中的方法就是绑定。<br><strong>静态绑定</strong>：在将.java文件编译成二进制文件（.class）文件时就已经确定下来方法的主体是谁就是静态绑定。在java中只有final，static，private和构造方法是前期绑定。<br><strong>动态绑定</strong>：在运行时根据具体对象进行绑定。<br>若是一种语言实现了动态绑定，它必然会提供一些机制，让程序在运行时确定判断对象的类型，决定调用的方法。  </p>
+<p>final, static, private 和构造方法是静态绑定的解释：<br><strong>final</strong>定义的方法不可被重写，所以调用的都是那一个方法，也就可以实现静态绑定了。<br>对<strong>static</strong>方法我的理解是，static修饰的方法是类方法，在jvm加载类时就已经确定下来，跟类绑定在一起，所以是静态绑定。下面定义一个Person类和画一张图来解释类和实例在内存中的关系：<br>Person类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">class Person &#123;</div><div class="line">    public static Integer armNum = 2;</div><div class="line">    public String name;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/06/15/假前小充电-面向对象（二）/3.png" alt=""><br>图中p1, p2是Person的两个实例。<br>显然，p1, p2的armNum属性使用的都是该实例的类（Person）中的armNum属性。显然，armNum属性在类加载时就已经静态绑定。对于static静态方法也是同样的道理。<br>另外，下面一段程序  演示了子类不会继承父类的static方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">class SuperClass &#123;</div><div class="line">	public static void method()&#123;</div><div class="line">		System.out.println(&quot;父类的静态方法&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class Test extends SuperClass&#123;</div><div class="line">	</div><div class="line">	@Override</div><div class="line">	public static void method()&#123;</div><div class="line">		System.out.println(&quot;子类的静态方法&quot;);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args)&#123;</div><div class="line">		SuperClass sp = new Test();</div><div class="line">		sp.method();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行编译会报错<br><img src="/2017/06/15/假前小充电-面向对象（二）/4.png" alt=""><br>所以，子类和父类中有一个名字相同的方法时，子类是重新定义了一个新的方法而不是继承并重写父类的该方法，显然是静态绑定。<br><strong>private</strong>，在面向对象（一）中讲过private修饰符修饰的方法不能被子类继承，所以也就不存在被子类重写的情况，显然也是静态绑定。<br><strong>构造器</strong>是不可被继承的，所以是静态绑定。  </p>
+<p>讲完了静态绑定，下面讲一下动态绑定<br>动态绑定往往发生在方法的重载时，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Animal an = new Dog();</div><div class="line">an.action();</div></pre></td></tr></table></figure></p>
+<p>运行此程序，调用的是Dog类重写的action方法而不是Animal类的action方法，这就是动态绑定。<br>摘录一段java实现动态绑定的过程：</p>
+<blockquote>
+<p>作者：zhangjk1993  <a href="http://blog.csdn.net/zhangjk1993/article/details/24066085" target="_blank" rel="external">来源</a><br>1：编译器检查对象的声明类型和方法名。<br>假设我们调用x.f(args)方法，并且x已经被声明为C类的对象，那么编译器会列举出C 类中所有的名称为f 的方法和从C 类的超类继承过来的f 方法。<br>2：接下来编译器检查方法调用中提供的参数类型。<br>如果在所有名称为f 的方法中有一个参数类型和调用提供的参数类型最为匹配，那么就调用这个方法，这个过程叫做“重载解析”。<br>3：当程序运行并且使用动态绑定调用方法时，虚拟机必须调用同x所指向的对象的实际类型相匹配的方法版本。<br>假设实际类型为D(C的子类)，如果D类定义了f(String)那么该方法被调用，否则就在D的超类中搜寻方法f(String),依次类推。  </p>
+</blockquote>
+<h1 id="final-修饰变量、方法、类分别表示什么含义？"><a href="#final-修饰变量、方法、类分别表示什么含义？" class="headerlink" title="final 修饰变量、方法、类分别表示什么含义？"></a>final 修饰变量、方法、类分别表示什么含义？</h1><p>final修饰变量时，表示该变量一旦获得初始值就不可被改变。<br>修饰方法时表示该方法不可被重写。<br>修饰类时表示该类不能有子类。常见的final类就有上面讲java多继承时我写的Integer类，Double类等。（之所以不影响上图的例子是因为判断一个类是否是继承了不可重写类是在jvm加载类时判断的，而上图演示的时编译时的状态，故不冲突）  </p>
+<h1 id="final-修饰的方法能不能被重载和重写？"><a href="#final-修饰的方法能不能被重载和重写？" class="headerlink" title="final 修饰的方法能不能被重载和重写？"></a>final 修饰的方法能不能被重载和重写？</h1><p>下面的例子演示了final修饰的方法可以重载<br><img src="/2017/06/15/假前小充电-面向对象（二）/5.png" alt=""><br>final修饰的方法看似可以重写，编译运行都正常，如下图<br><img src="/2017/06/15/假前小充电-面向对象（二）/6.jpg" alt=""><br>实际上是子类重新写了一个同名的方法，只要加上一个@Override可以验证：<br><img src="/2017/06/15/假前小充电-面向对象（二）/7.jpg" alt=""></p>
+<blockquote>
+<p>final关键字的好处（<a href="http://www.importnew.com/7553.html" target="_blank" rel="external">出处点这里</a>）</p>
+</blockquote>
+<p>1.final关键字提高了性能。JVM和Java应用都会缓存final变量。</p>
+<p>2.final变量可以安全的在多线程环境下进行共享，而不需要额外的同步开销。</p>
+<p>3.使用final关键字，JVM会对方法、变量及类进行优化。</p>
+<h1 id="包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？"><a href="#包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？" class="headerlink" title="包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？"></a>包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？</h1><p>有抽象方法的类只能被定义成抽象类，抽象类可以不含有抽象方法。  </p>
+<h1 id="抽象类的构造方法能不能被调用？"><a href="#抽象类的构造方法能不能被调用？" class="headerlink" title="抽象类的构造方法能不能被调用？"></a>抽象类的构造方法能不能被调用？</h1><p><img src="/2017/06/15/假前小充电-面向对象（二）/8.png" alt=""><br> 如图，不能。</p>
+<h1 id="接口中有没有多继承？"><a href="#接口中有没有多继承？" class="headerlink" title="接口中有没有多继承？"></a>接口中有没有多继承？</h1><p>有。我个人理解是类的方法体的程序片段都不同，若是多继承需要判断继承哪个父类的方法，提高了程序的复杂性，所以java取消了类的多继承。<br>但是接口的多继承并不会造成这种问题。<br>java的接口体中只进行方法的声明，不允许提供方法的实现。这样即使该接口继承了多个接口中都有定义该方法，但是都没有方法体，也就无所谓继承了具体哪个方法了。<br>但值得一提的是，java中接口的多继承要求如果多个接口都定义了一个同名的方法，该方法的返回值必须相同：<br><img src="/2017/06/15/假前小充电-面向对象（二）/9.jpg" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/05/假前小充电-面向对象（一）/" rel="next" title="假前小充电--面向对象（一）">
+                <i class="fa fa-chevron-left"></i> 假前小充电--面向对象（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/16/假前小充电-异常机制/" rel="prev" title="假前小充电-异常机制">
+                假前小充电-异常机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg"
+               alt="wean" />
+          <p class="site-author-name" itemprop="name">wean</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wean2016" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-中如果没有使用-extends-那么默认继承了哪个类？"><span class="nav-number">1.</span> <span class="nav-text">Java 中如果没有使用 extends,那么默认继承了哪个类？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重写（override）指的是什么？"><span class="nav-number">2.</span> <span class="nav-text">重写（override）指的是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-中有没有多继承？"><span class="nav-number">3.</span> <span class="nav-text">Java 中有没有多继承？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#叙述一下，有继承结构时，构造函数的调用顺序。"><span class="nav-number">4.</span> <span class="nav-text">叙述一下，有继承结构时，构造函数的调用顺序。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。"><span class="nav-number">5.</span> <span class="nav-text">重写中，子类的返回值类型可不可以跟父类不完全一致？说明理由。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多态的三个必要条件是什么？"><span class="nav-number">6.</span> <span class="nav-text">多态的三个必要条件是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-的方法绑定采用动态绑定还是静态绑定？"><span class="nav-number">7.</span> <span class="nav-text">Java 的方法绑定采用动态绑定还是静态绑定？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#final-修饰变量、方法、类分别表示什么含义？"><span class="nav-number">8.</span> <span class="nav-text">final 修饰变量、方法、类分别表示什么含义？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#final-修饰的方法能不能被重载和重写？"><span class="nav-number">9.</span> <span class="nav-text">final 修饰的方法能不能被重载和重写？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？"><span class="nav-number">10.</span> <span class="nav-text">包含抽象方法的类是抽象类吗？抽象类一定包含抽象方法吗？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象类的构造方法能不能被调用？"><span class="nav-number">11.</span> <span class="nav-text">抽象类的构造方法能不能被调用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接口中有没有多继承？"><span class="nav-number">12.</span> <span class="nav-text">接口中有没有多继承？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wean</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

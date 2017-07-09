@@ -1,0 +1,744 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="记录了异常机制的几个问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="假前小充电-异常机制">
+<meta property="og:url" content="http://wean2016.cn/2017/06/16/假前小充电-异常机制/index.html">
+<meta property="og:site_name" content="wean&#39;s blog">
+<meta property="og:description" content="记录了异常机制的几个问题">
+<meta property="og:image" content="http://wean2016.cn/2017/06/16/假前小充电-异常机制/1.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/16/假前小充电-异常机制/2.png">
+<meta property="og:image" content="http://wean2016.cn/2017/06/16/假前小充电-异常机制/3.png">
+<meta property="og:updated_time" content="2017-07-09T04:54:16.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="假前小充电-异常机制">
+<meta name="twitter:description" content="记录了异常机制的几个问题">
+<meta name="twitter:image" content="http://wean2016.cn/2017/06/16/假前小充电-异常机制/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wean2016.cn/2017/06/16/假前小充电-异常机制/"/>
+
+
+
+
+
+  <title>假前小充电-异常机制 | wean's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wean's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://wean2016.cn/2017/06/16/假前小充电-异常机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wean">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wean's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">假前小充电-异常机制</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-16T13:36:18+08:00">
+                2017-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录了异常机制的几个问题<br><a id="more"></a></p>
+<h1 id="Java-中，处理异常的的两大步是？"><a href="#Java-中，处理异常的的两大步是？" class="headerlink" title="Java 中，处理异常的的两大步是？"></a>Java 中，处理异常的的两大步是？</h1><p>java处理异常主要分两步：1、捕获异常 2、抛出或者处理异常<br><strong>捕获异常</strong>要求我们在可能出现异常的地方使用try块包围起来，jvm在执行代码时若是捕捉到了异常，就会去寻找相应的异常catch块处理，若是我们不使用try块包围起来，异常就会直接抛给JVM。（JVM处理异常的方式是在标准错误流打印出异常消息并终止程序，这显然不是我们实际运行程序时想要的结果）<br><strong>抛出或者处理异常</strong>指的是在业务逻辑不正确的地方手动抛出异常交给java程序捕获处理，catch住异常并处理异常，将当前方法不能处理抛给上一层处理，或者不能完全处理的代码处理一部分后将异常抛给上一级继续处理。</p>
+<h1 id="如果-catch-两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？"><a href="#如果-catch-两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？" class="headerlink" title="如果 catch 两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？"></a>如果 catch 两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？</h1><p>所有父类异常的catch块都应该放在子类异常的catch块后面（简称：<strong>先处理小异常，再处理大异常</strong>），否则将出现错误，下面演示了这个错误的情景：<br><img src="/2017/06/16/假前小充电-异常机制/1.png" alt=""><br>在这个例子中NullPointerException是RuntimeException异常的子类，将其放在后面显然就违背了异常处理的顺序，所以编译时便报错了。<br>从道理上来讲也是这样的，若是父类异常的catch放在前面，那么子类异常也就永远没有执行的机会了，这显然也不符合我们设计程序的思路。  </p>
+<h1 id="Error-和-Exception-的区别和联系？"><a href="#Error-和-Exception-的区别和联系？" class="headerlink" title="Error 和 Exception 的区别和联系？"></a>Error 和 Exception 的区别和联系？</h1><p>这个问题其实可以用一张图来描述：<br><img src="/2017/06/16/假前小充电-异常机制/2.png" alt=""></p>
+<p> 在联系方面，如图Error和Exception都集成于Throwable类，都是Java程序运行时的非正常情况<br>在区别方面，用一句话讲就是：Error应用程序无能力处理，Exception应用程序可以处理。<br>下面给出一段Eorror的介绍帮助读者加深对Error的理解：  </p>
+<blockquote>
+<p>Error错误，一般是指与虚拟机的相关的问题，如系统奔溃、虚拟机错误、动态链接失败等，这种错误无法恢复或者不可能捕获，将导致应用程序中断。通常应用程序无法处理这些错误，因此应用程序不应该使用catch块来捕获Error对象。在定义该方法时，也无需在其throws子句中声明该方法可能抛出的Error及其任何子类。  </p>
+</blockquote>
+<h1 id="Throwable-是一个类还是接口？"><a href="#Throwable-是一个类还是接口？" class="headerlink" title="Throwable 是一个类还是接口？"></a>Throwable 是一个类还是接口？</h1><p>是一个类 ，通过查阅API文档可知该类定义了我们使用Exception常用的几个方法：getMessage、printStackTrace等，显然我们自定义异常类就是通过重写这几个方法来达到我们的目的。  </p>
+<h1 id="方法重写时，子类声明异常能否超出父类的范围？"><a href="#方法重写时，子类声明异常能否超出父类的范围？" class="headerlink" title="方法重写时，子类声明异常能否超出父类的范围？"></a>方法重写时，子类声明异常能否超出父类的范围？</h1><p>不能噢。方法重写有一条规则：<strong>子类方法声明抛出的异常类型应该是父类方法抛出异常类型的子类或者相同，子类方法声明抛出的异常不允许比父类方法声明抛出的异常多。</strong><br>下面引用《疯狂Java讲义》的一段代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class OverrideThrows</div><div class="line">&#123;</div><div class="line">	public void test()throws IOException</div><div class="line">	&#123;</div><div class="line">		FileInputStream fis = new FileInputStream(&quot;a.txt&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">class Sub extends OverrideThrows</div><div class="line">&#123;</div><div class="line">	// 子类方法声明抛出了比父类方法更大的异常</div><div class="line">	// 所以下面方法出错</div><div class="line">	public void test()throws Exception</div><div class="line">	&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编译上面一段程序将会报错<br><img src="/2017/06/16/假前小充电-异常机制/3.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/15/假前小充电-面向对象（二）/" rel="next" title="假前小充电-面向对象（二）">
+                <i class="fa fa-chevron-left"></i> 假前小充电-面向对象（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/16/假前小充电-容器/" rel="prev" title="假前小充电-容器">
+                假前小充电-容器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://orqrihppm.bkt.clouddn.com/%E5%A4%B4%E5%83%8F/avatar.jpg"
+               alt="wean" />
+          <p class="site-author-name" itemprop="name">wean</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wean2016" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-中，处理异常的的两大步是？"><span class="nav-number">1.</span> <span class="nav-text">Java 中，处理异常的的两大步是？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如果-catch-两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？"><span class="nav-number">2.</span> <span class="nav-text">如果 catch 两个异常，一个是父类，一个是子类。那这两个异常的catch顺序如何确定？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Error-和-Exception-的区别和联系？"><span class="nav-number">3.</span> <span class="nav-text">Error 和 Exception 的区别和联系？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Throwable-是一个类还是接口？"><span class="nav-number">4.</span> <span class="nav-text">Throwable 是一个类还是接口？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法重写时，子类声明异常能否超出父类的范围？"><span class="nav-number">5.</span> <span class="nav-text">方法重写时，子类声明异常能否超出父类的范围？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wean</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
